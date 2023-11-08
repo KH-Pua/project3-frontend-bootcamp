@@ -3,9 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@auth0/auth0-react": "^2.2.3",
+    "@flaticon/flaticon-uicons": "^3.0.0",
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
+    "axios": "^1.6.0",
+    "prettier": "^3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.6",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-scripts": "5.0.1"
+    "react-router-dom": "^6.18.0",
+    "react-scripts": "5.0.1",
+    "react-tailwindcss-datepicker": "^1.6.6"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -27,5 +36,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "daisyui": "^3.9.4",
+    "tailwindcss": "^3.3.5"
   }
 }
