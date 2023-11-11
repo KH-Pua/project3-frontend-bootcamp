@@ -4,7 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export function useAuthGate() {
-  const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
+  const {
+    isAuthenticated,
+    isLoading,
+    loginWithRedirect,
+    getAccessTokenSilently,
+    user,
+  } = useAuth0();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,5 +24,5 @@ export function useAuthGate() {
     }
   }, [isAuthenticated, isLoading, loginWithRedirect, navigate]);
 
-  return { isAuthenticated, isLoading };
+  return { isAuthenticated, isLoading, getAccessTokenSilently, user };
 }

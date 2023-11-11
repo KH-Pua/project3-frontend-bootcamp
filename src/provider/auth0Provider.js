@@ -7,8 +7,8 @@ export default function OAuthProvider({ children }) {
       domain="dev-2jf01eugzd36x5ye.us.auth0.com"
       clientId="FwWeA5Y07sVMwlDX7Q97oClY8KTrFTLa"
       redirectUri={window.location.origin}
-      scope="openid profile email"
-      audience="YOUR_AUDIENCE"
+      scope="read:current_user update:current_user_metadata openid profile email"
+      audience="dev-2jf01eugzd36x5ye.us.auth0.com/api/v2"
     >
       {children}
     </Auth0Provider>
