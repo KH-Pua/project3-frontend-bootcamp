@@ -1,12 +1,47 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../provider/globalProvider.js";
 import { useAuth0 } from "@auth0/auth0-react";
+import BACKEND_URL from "../../constants.js";
 
 export default function GuestLogin() {
   const infoToPass = useContext(GlobalContext);
   const navigate = useNavigate();
-  const { loginWithRedirect, logout, isAuthenticated } = useAuth0(); // Add isAuthenticated to the destructuring
+  const {
+    loginWithRedirect,
+    logout,
+    isAuthenticated,
+    getAccessTokenSilently,
+    user,
+  } = useAuth0();
+
+  const handleUserData = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      // Here, modify or add any user data you want to send to your backend
+      const userData = { email: user.email, name: user.name };
+
+      await fetch(`${BACKEND_URL}/guests/`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      // You may navigate to a different page or show a message upon success
+    } catch (error) {
+      console.error("Error during user data handling", error);
+      // Handle errors, e.g., show a notification
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      handleUserData();
+    }
+  }, [isAuthenticated, getAccessTokenSilently, user]);
 
   const handleLogin = () => {
     loginWithRedirect();
