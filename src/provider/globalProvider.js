@@ -10,21 +10,21 @@ export default function GlobalProvider({ children }) {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   // Function to fetch and update the access token
-  const updateToken = async () => {
-    if (isAuthenticated) {
-      try {
-        const accessToken = await getAccessTokenSilently();
-        setToken(accessToken);
-      } catch (error) {
-        console.error("Error fetching access token", error);
-        // Handle error scenarios
-      }
-    }
-  };
+  // const updateToken = async () => {
+  //   if (isAuthenticated) {
+  //     try {
+  //       const accessToken = await getAccessTokenSilently();
+  //       setToken(accessToken);
+  //     } catch (error) {
+  //       console.error("Error fetching access token", error);
+  //       // Handle error scenarios
+  //     }
+  //   }
+  // };
 
-  useEffect(() => {
-    updateToken();
-  }, [isAuthenticated, getAccessTokenSilently]);
+  // useEffect(() => {
+  //   updateToken();
+  // }, [isAuthenticated, getAccessTokenSilently]);
 
   const infoToPass = {
     token,

@@ -6,9 +6,11 @@ export default function OAuthProvider({ children }) {
     <Auth0Provider
       domain="dev-2jf01eugzd36x5ye.us.auth0.com"
       clientId="FwWeA5Y07sVMwlDX7Q97oClY8KTrFTLa"
-      redirectUri={window.location.origin}
-      scope="read:current_user update:current_user_metadata openid profile email"
-      audience="dev-2jf01eugzd36x5ye.us.auth0.com/api/v2"
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+        scope: "read:current_user update:current_user_metadata openid profile email",
+        audience: "https://api.powderful.xyz" // FE audience's URL must tally with BE audience's URL
+      }}
     >
       {children}
     </Auth0Provider>
