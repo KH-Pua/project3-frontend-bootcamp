@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../provider/globalProvider.js";
 import { useAuth0 } from "@auth0/auth0-react";
 import BACKEND_URL from "../../constants.js";
+import axios from "axios";
 
 export default function GuestLogin() {
   const infoToPass = useContext(GlobalContext);
@@ -17,18 +18,30 @@ export default function GuestLogin() {
 
   const handleUserData = async () => {
     try {
-      const token = await getAccessTokenSilently();
-      // Here, modify or add any user data you want to send to your backend
-      const userData = { email: user.email, name: user.name };
-
-      await fetch(`${BACKEND_URL}/guests/`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+      console.log(user);
+      const token = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: "https://api.powderful.xyz",
+          scope: "read:current_user",
         },
-        body: JSON.stringify(userData),
       });
+
+      //Need to save token to localStorage here ?
+      localStorage.setItem("accessToken", token);
+
+      // Here, modify or add any user data you want to send to your backend
+      const userData = { email: user.email, name: user.name, user_sub: user.sub };
+
+      const registerUser = await axios.post(`${BACKEND_URL}/guests/`, userData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (registerUser) {
+        console.log(registerUser);
+      }
 
       // You may navigate to a different page or show a message upon success
     } catch (error) {
@@ -39,6 +52,7 @@ export default function GuestLogin() {
 
   useEffect(() => {
     if (isAuthenticated) {
+      console.log("Authenticated");
       handleUserData();
     }
   }, [isAuthenticated, getAccessTokenSilently, user]);
