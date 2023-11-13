@@ -1,32 +1,74 @@
-import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { GlobalContext } from "../../provider/globalProvider.js";
 import { useAuthGate } from "../../components/useAuthGate.js";
-
-import axios from "axios";
+import { useApi } from "../../components/api.js";
 import BACKEND_URL from "../../constants.js";
+import axios from "axios";
 
 export default function BookingRequest() {
   const infoToPass = useContext(GlobalContext);
   const navigate = useNavigate();
-  const { isAuthenticated, isLoading } = useAuthGate();
+  const { isAuthenticated, getAccessTokenSilently } = useAuthGate();
+  const { post } = useApi();
 
-  // Declare state here.
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [bookingStatus, setBookingStatus] = useState("pending");
+  const [paymentStatus, setPaymentStatus] = useState("unpaid");
 
-  // Your code here.
+  const internalUserId = localStorage.getItem("internalUserId");
 
-  if (isLoading) {
-    return <div>Loading...</div>; // Or some loading spinner
-  }
+  // Get propertyId from route params
+  const { propertyId } = useParams();
 
-  if (!isAuthenticated) {
-    return null; // Render nothing or a message prompting the user to wait while being redirected
-  }
+  const handleBooking = async () => {
+    if (!isAuthenticated) {
+      console.log("User not authenticated");
+      return;
+    }
+
+    try {
+      const bookingData = {
+        guest_id: internalUserId,
+        property_id: propertyId,
+        start_date: startDate,
+        end_date: endDate,
+        booking_status: bookingStatus,
+        payment_status: paymentStatus,
+      };
+
+      const response = await post(`${BACKEND_URL}/bookings/`, bookingData);
+      console.log("Booking successful:", response.data);
+      // Handle successful booking
+    } catch (error) {
+      console.error("Error creating booking", error);
+      // Handle error
+    }
+  };
+
   return (
     <>
-      <h1 className="text-4xl font-bold">Booking Request Confirmation</h1>
+      <h1 className="text-4xl font-bold">Booking Request</h1>
       <br />
-      <p>Booking particulars here</p>
+      <div>
+        <label>Start Date:</label>
+        <input
+          type="date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
+      </div>
+      <div>
+        <label>End Date:</label>
+        <input
+          type="date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+        />
+      </div>
+      <br />
+      <button onClick={handleBooking}>Confirm Booking</button>
     </>
   );
 }
