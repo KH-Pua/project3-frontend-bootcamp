@@ -60,6 +60,7 @@ export default function ListingAll() {
   //Do modals for each listing, and pass filteredStartDate, filteredEndDate, adultsNo, childrenNo to bookingRequest.js
   const renderThumbnails = () => {
     if (listingAll) {
+      console.log(listingAll[0].property_assets[0].file_link);
       return (
         <div className="bg-white">
           <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
