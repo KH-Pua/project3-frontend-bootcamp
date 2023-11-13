@@ -22,7 +22,7 @@ export default function ListingAll() {
   const infoToPass = useContext(GlobalContext);
   const navigate = useNavigate();
   // Declare state here.
-  const [listingAll, setListingAll] = useState([]);
+  const [listingAll, setListingAll] = useState("");
   const [listingId, setListingId] = useState(0);
   const [open, setOpen] = useState(false);
 
