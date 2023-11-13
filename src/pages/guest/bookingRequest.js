@@ -49,8 +49,11 @@ export default function BookingRequest() {
 
   return (
     <>
-      <h1 className="text-4xl font-bold">Booking Request</h1>
+      <h1 className="text-4xl font-bold">
+        Booking Request for Property: {propertyId}
+      </h1>
       <br />
+
       <div>
         <label>Start Date:</label>
         <input
