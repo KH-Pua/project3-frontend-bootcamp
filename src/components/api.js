@@ -16,9 +16,22 @@ export const useApi = () => {
     });
   };
 
+  const post = async (url, data) => {
+    const token = await getAccessTokenSilently({
+      audience: "https://api.powderful.xyz",
+      scope: "read:current_user",
+    });
+    return axios.post(url, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
   return {
     get,
-    // post,
+    post,
     // put,
     // delete,
   };

@@ -51,7 +51,12 @@ const App = () => {
             <Route path="guestRegistration" element={<GuestRegistration />} />
             <Route path="listingAll" element={<ListingAll />} />
             <Route path="bookingRequest" element={<BookingRequest />} />
-            {/* <Route path="guestDashboard" element={<GuestDashboard />} /> */}
+            <Route
+              path="bookingRequest/:propertyId"
+              element={<BookingRequest />}
+            />
+
+            <Route path="guestDashboard" element={<GuestDashboard />} />
             <Route path="bookingDetails" element={<BookingDetails />} />
 
             {/* Manager Pages */}

@@ -57,6 +57,11 @@ export default function ListingAll() {
     loginWithRedirect();
   };
 
+  // Function to handle booking button click
+  const handleBookingClick = (propertyId) => {
+    navigate(`/bookingRequest/${propertyId}`);
+  };
+
   //Do modals for each listing, and pass filteredStartDate, filteredEndDate, adultsNo, childrenNo to bookingRequest.js
   const renderThumbnails = () => {
     if (listingAll) {
@@ -343,6 +348,7 @@ export default function ListingAll() {
                           <button
                             type="submit"
                             className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            onClick={() => handleBookingClick(listing.id)}
                           >
                             Book
                           </button>
