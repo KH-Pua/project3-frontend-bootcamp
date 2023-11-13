@@ -49,25 +49,33 @@ export default function GuestDashboard() {
 
   useEffect(() => {
     const fetchBookings = async () => {
-      if (!isAuthenticated) return; // Exit if not authenticated
+      if (!isAuthenticated) return;
 
       try {
-        const response = await get(`${BACKEND_URL}/bookings/`);
-        setBookings(response.data); // Assuming the response data is the array of bookings
+        const token = await getAccessTokenSilently();
+        // Retrieve the internal user ID stored in local storage
+        const internalUserId = localStorage.getItem("internalUserId");
+
+        const response = await get(
+          `${BACKEND_URL}/bookings/user?guest_id=${encodeURIComponent(
+            internalUserId
+          )}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        setBookings(response.data);
       } catch (error) {
         console.error("Error fetching bookings", error);
-        // Handle the error, perhaps by setting an error state
       }
     };
 
     fetchBookings();
-  }, [isAuthenticated, get]); // Dependency array includes get to silence useEffect warning
+  }, [isAuthenticated, getAccessTokenSilently, get]);
 
   if (isLoading) {
     return <div>Loading...</div>; // Show loading indicator while loading
   }
 
-  // Render the fetched bookings
   const bookingsList = bookings.map((booking) => (
     <div key={booking.id}>
       <p>Booking ID: {booking.id}</p>
@@ -394,9 +402,7 @@ export default function GuestDashboard() {
     <>
       <h1 className="text-4xl font-bold">Guest Dashboard</h1>
       <br />
-      <div>
-        <h2>User Email: {user.email}</h2>
-      </div>
+      <h2>User Email: {user.email}</h2>
       <h1>Trips</h1>
       <div>{bookingsList}</div>
       {renderDashboard()}

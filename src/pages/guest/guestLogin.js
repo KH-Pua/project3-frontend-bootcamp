@@ -45,9 +45,9 @@ export default function GuestLogin() {
         }
       );
 
-      if (response) {
-        console.log(response);
-        // Handle response accordingly
+      if (response.data.internalUserId) {
+        // Store the internal user ID for later use
+        localStorage.setItem("internalUserId", response.data.internalUserId);
       }
     } catch (error) {
       console.error("Error during user data handling", error);

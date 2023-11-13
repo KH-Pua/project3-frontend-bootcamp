@@ -22,7 +22,7 @@ export default function ListingAll() {
   const infoToPass = useContext(GlobalContext);
   const navigate = useNavigate();
   // Declare state here.
-  const [listingAll, setListingAll] = useState("");
+  const [listingAll, setListingAll] = useState([]);
   const [listingId, setListingId] = useState(0);
   const [open, setOpen] = useState(false);
 
@@ -80,8 +80,13 @@ export default function ListingAll() {
                 >
                   <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                     <img
-                      src={listing.property_assets[0].file_link}
-                      alt="img"
+                      src={
+                        listing.property_assets &&
+                        listing.property_assets.length > 0
+                          ? listing.property_assets[0].file_link
+                          : "default_image_url_here" // Replace with your default image URL
+                      }
+                      alt="Property"
                       className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                     />
                   </div>
@@ -95,11 +100,11 @@ export default function ListingAll() {
                       </h3>
                       {/* <p className="mt-1 text-sm text-gray-500">{listing.description}</p> */}
                       <p className="text-sm font-medium text-gray-900">
-                      ¥{listing.roomrate}/night
+                        ¥{listing.roomrate}/night
                       </p>
                     </div>
                     <p className="mt-1 text-sm text-gray-500 text-left line-clamp-3">
-                    {listing.description}
+                      {listing.description}
                     </p>
                   </div>
                 </button>
@@ -119,11 +124,14 @@ export default function ListingAll() {
       } else {
         let arrayIndex = listingId - 1;
         return modal(arrayIndex);
-      };
-    };
+      }
+    }
   };
 
   const modal = (arrayIndex) => {
+    const listing = listingAll[arrayIndex];
+    if (!listing) return null;
+
     return (
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10 rounded-lg" onClose={setOpen}>
@@ -172,7 +180,10 @@ export default function ListingAll() {
                       <div className="aspect-h-3 aspect-w-2 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5">
                         <img
                           src={
-                            listingAll[arrayIndex].property_assets[0].file_link
+                            listing.property_assets &&
+                            listing.property_assets.length > 0
+                              ? listing.property_assets[0].file_link
+                              : "default_image_url_here"
                           }
                           alt="img"
                           className="object-cover object-center"
@@ -353,7 +364,7 @@ export default function ListingAll() {
         </Dialog>
       </Transition.Root>
     );
-  }
+  };
 
   // For Auth0 authentication use
   // useEffect(() => {
@@ -391,16 +402,16 @@ export default function ListingAll() {
       } catch (err) {
         console.log(err);
       }
-    };
+    }
     //GET REVIEWS
     // async function getReviews() {
     //   try {
-    //       //Need to get all review on all bookings with same property_id 
+    //       //Need to get all review on all bookings with same property_id
     //       let listingReview = await axios.get(`${BACKEND_URL}/bookings/`)
     //   } catch (err) {
     //       console.log(err);
     //   }
-    // };    
+    // };
     fetchListingAll();
   }, []);
 
