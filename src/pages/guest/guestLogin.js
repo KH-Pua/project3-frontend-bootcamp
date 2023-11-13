@@ -18,7 +18,6 @@ export default function GuestLogin() {
 
   const handleUserData = async () => {
     try {
-      console.log(user);
       const token = await getAccessTokenSilently({
         authorizationParams: {
           audience: "https://api.powderful.xyz",
@@ -26,27 +25,32 @@ export default function GuestLogin() {
         },
       });
 
-      //Need to save token to localStorage here ?
       localStorage.setItem("accessToken", token);
 
-      // Here, modify or add any user data you want to send to your backend
-      const userData = { email: user.email, name: user.name, user_sub: user.sub };
+      const userData = {
+        email: user.email,
+        name: user.name,
+        user_sub: user.sub,
+      };
 
-      const registerUser = await axios.post(`${BACKEND_URL}/guests/`, userData, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      // Send a request to check if the user exists or needs to be created
+      const response = await axios.post(
+        `${BACKEND_URL}/guests/check-or-create`,
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      if (registerUser) {
-        console.log(registerUser);
+      if (response) {
+        console.log(response);
+        // Handle response accordingly
       }
-
-      // You may navigate to a different page or show a message upon success
     } catch (error) {
       console.error("Error during user data handling", error);
-      // Handle errors, e.g., show a notification
     }
   };
 
