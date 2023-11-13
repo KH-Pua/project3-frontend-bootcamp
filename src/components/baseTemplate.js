@@ -11,29 +11,22 @@ export default function BaseTemplate() {
       <br />
       <p>This navigating section for development use</p>
       <div>
-        <NavLink 
-          to="/guestRegistration" 
-        >
+        {/* <NavLink to="/guestRegistration">
           <button className="btn">Guest Registration</button>
-        </NavLink>
-        <NavLink 
-          to="/listingAll" 
-        >
+        </NavLink> */}
+        <NavLink to="/listingAll">
           <button className="btn">Listings</button>
         </NavLink>
-        <NavLink 
-          to="/bookingRequest" 
-        >
+        <NavLink to="/">
+          <button className="btn">Guest Login</button>
+        </NavLink>
+        <NavLink to="/bookingRequest">
           <button className="btn">Booking Request</button>
         </NavLink>
-        <NavLink 
-          to="/guestDashboard" 
-        >
+        <NavLink to="/guestDashboard">
           <button className="btn">Guest Dashboard</button>
         </NavLink>
-        <NavLink 
-          to="/messenger" 
-        >
+        <NavLink to="/messenger">
           <button className="btn">Messenger</button>
         </NavLink>
       </div>
