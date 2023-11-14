@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, Fragment } from "react";
 import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import Datepicker from "react-tailwindcss-datepicker";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 //import { Auth0Provider } from "../../provider/auth0Provider.js";
@@ -19,42 +20,16 @@ export default function ListingAll() {
     logout,
   } = useAuth0();
 
-  const infoToPass = useContext(GlobalContext);
+  const {selectedDate, setSelectedDate, adultNumber, setAdultNumber, childrenNumber, setChildrenNumber} = useContext(GlobalContext);
   const navigate = useNavigate();
   // Declare state here.
-  const [listingAll, setListingAll] = useState([]);
+  const [listingAll, setListingAll] = useState("");
   const [listingId, setListingId] = useState(0);
   const [open, setOpen] = useState(false);
 
-  // Your code here.
-  const authOExecutionTesting = () => {
-    if (isLoading) {
-      return <div>Loading...</div>;
-    }
-    if (error) {
-      return <div>Oops... {error.message}</div>;
-    }
-
-    if (isAuthenticated) {
-      return (
-        <div>
-          Hello {user.name}{" "}
-          <button
-            onClick={() =>
-              logout({ logoutParams: { returnTo: window.location.origin } })
-            }
-          >
-            Log out
-          </button>
-        </div>
-      );
-    } else {
-      return <button onClick={() => loginWithRedirect()}>Log in</button>;
-    }
-  };
-
-  const login = () => {
-    loginWithRedirect();
+  // Function to handle booking button click
+  const handleBookingClick = (propertyId) => {
+    navigate(`/bookingRequest/${propertyId}`);
   };
 
   //Do modals for each listing, and pass filteredStartDate, filteredEndDate, adultsNo, childrenNo to bookingRequest.js
@@ -62,7 +37,7 @@ export default function ListingAll() {
     if (listingAll) {
       return (
         <div className="bg-white">
-          <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <div className="py-4">
             <h2 className="text-2xl font-bold tracking-tight text-gray-900">
               All Listings
             </h2>
@@ -342,6 +317,7 @@ export default function ListingAll() {
                           <button
                             type="submit"
                             className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            onClick={() => handleBookingClick( listing.id )}
                           >
                             Book
                           </button>
@@ -365,31 +341,70 @@ export default function ListingAll() {
     );
   };
 
-  // For Auth0 authentication use
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     console.log("user: ", user);
-  //   }
-  // }, [isAuthenticated, user]);
+  const dropDownList = (category) => {
+    let numberArray = [];
+    for (let i = 0; i <= 10; i++) {
+      numberArray.push(i);
+    };
 
-  // useEffect(() => {
-  //   console.log("Enter get access token function");
-  //   const getToken = async () => {
-  //     try {
-  //       const token = await getAccessTokenSilently({
-  //         authorizationParams: {
-  //           audience: ``,
-  //           scope: "",
-  //         },
-  //       });
-  //       console.log("Token: ", token);
-  //       localStorage.setItem("accessToken", token);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getToken();
-  // }, [getAccessTokenSilently, user?.sub]);
+    if (category === "adult") {
+      return (
+        <div>
+          <label htmlFor="adultNumber" className="block text-sm font-medium leading-6 text-gray-900">
+            Adult
+          </label>
+          <select
+            id="adultNumber"
+            name="adultNumber"
+            className="mt-2 block w-full rounded-md border-0 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            value={adultNumber}
+            onChange={(e) => handleNumberChange(e)}
+          >
+            {numberArray.map((number) => (
+              <option key={number}>{number}</option>
+            ))}
+          </select>
+        </div>
+      )
+    } else if (category === "children"){
+      return (
+        <div>
+          <label htmlFor="childrenNumber" className="block text-sm font-medium leading-6 text-gray-900">
+            Children
+          </label>
+          <select
+            id="childrenNumber"
+            name="childrenNumber"
+            className="mt-2 block w-full rounded-md border-0 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            value={childrenNumber}
+            onChange={(e) => handleNumberChange(e)}
+          >
+            {numberArray.map((number) => (
+              <option key={number}>{number}</option>
+            ))}
+          </select>
+        </div>
+      )
+    }
+  }
+
+  const handleNumberChange = (e) => {
+    console.log(e.target.id);
+    console.log(e.target.value);
+    if (setAdultNumber && setChildrenNumber) {
+      if (e.target.id === "adultNumber") {
+        setAdultNumber(e.target.value);
+      } else if (e.target.id === "childrenNumber") {
+        setChildrenNumber(e.target.value);
+      };
+    };
+  }
+
+  const handleDateChange = (input) => {
+    if (setSelectedDate) {
+      setSelectedDate(input);
+    };
+  };
 
   useEffect(() => {
     async function fetchListingAll() {
@@ -416,13 +431,31 @@ export default function ListingAll() {
 
   return (
     <>
-      <h1 className="text-4xl font-bold">Property Listing</h1>
-      <br />
-      {/* {authOExecutionTesting()} */}
-      <p>Search Bar here</p>
-      <br />
-      {renderThumbnails()}
-      {modalRenderer(listingId)}
+      <header>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">Property Listing</h1>
+        </div>
+      </header>
+      <main className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8 py-8">
+        <div>
+          <div className="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-3">
+            <div>
+              <label htmlFor="datePicker" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
+              Travel Date
+              </label>
+              <Datepicker
+                id="datePicker" 
+                value={selectedDate} 
+                onChange={(date) => handleDateChange(date)}
+              />
+            </div>
+            {dropDownList("adult")}
+            {dropDownList("children")}
+          </div>
+          {renderThumbnails()}
+          {modalRenderer(listingId)}
+        </div>
+      </main>
     </>
   );
 }

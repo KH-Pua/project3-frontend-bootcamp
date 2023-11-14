@@ -25,9 +25,16 @@ export default function Messenger() {
 
   return (
     <>
-      <h1 className="text-4xl font-bold">Messenger</h1>
-      <br />
-      <p>Messenger Page</p>
+      <header>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">Messenger</h1>
+        </div>
+      </header>
+      <main className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
+        <div>
+        {/* Messenger Body Here */}
+        </div>
+      </main>
     </>
   );
 }
