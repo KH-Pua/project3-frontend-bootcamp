@@ -9,15 +9,13 @@ import axios from "axios";
 export default function BookingRequest() {
   const infoToPass = useContext(GlobalContext);
   const navigate = useNavigate();
-  const { isAuthenticated, getAccessTokenSilently } = useAuthGate();
+  const { isAuthenticated, getAccessTokenSilently, user } = useAuthGate();
   const { post } = useApi();
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [bookingStatus, setBookingStatus] = useState("pending");
   const [paymentStatus, setPaymentStatus] = useState("unpaid");
-
-  const internalUserId = localStorage.getItem("internalUserId");
 
   // Get propertyId from route params
   const { propertyId } = useParams();
@@ -29,16 +27,28 @@ export default function BookingRequest() {
     }
 
     try {
+      const token = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: "https://api.powderful.xyz",
+          scope: "read:current_user",
+        },
+      });
       const bookingData = {
-        guest_id: internalUserId,
         property_id: propertyId,
         start_date: startDate,
         end_date: endDate,
         booking_status: bookingStatus,
         payment_status: paymentStatus,
+        user_sub: user.sub,
       };
 
-      const response = await post(`${BACKEND_URL}/bookings/`, bookingData);
+      const response = await axios.post(
+        `${BACKEND_URL}/bookings/`,
+        bookingData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       console.log("Booking successful:", response.data);
       // Handle successful booking
     } catch (error) {

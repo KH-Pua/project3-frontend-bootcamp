@@ -25,7 +25,6 @@ import ListingAll from "./pages/guest/listingAll.js";
 // Manager Pages import
 import CreateListing from "./pages/propertyManager/createListing.js";
 import ListingDetails from "./pages/propertyManager/listingDetails.js";
-import ManagerLogin from "./pages/propertyManager/managerLogin.js"; // Fixed duplicate import
 import ManagerRegistration from "./pages/propertyManager/managerRegistration.js";
 import PropertyListing from "./pages/propertyManager/managerDashboard.js";
 
@@ -60,7 +59,6 @@ const App = () => {
             <Route path="bookingDetails" element={<BookingDetails />} />
 
             {/* Manager Pages */}
-            <Route path="managerLogin" element={<ManagerLogin />} />
             <Route
               path="managerRegistration"
               element={<ManagerRegistration />}
