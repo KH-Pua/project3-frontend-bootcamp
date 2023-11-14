@@ -29,8 +29,13 @@ export default function BookingRequest() {
     }
 
     try {
+      const token = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: "https://api.powderful.xyz",
+          scope: "read:current_user",
+        },
+      });
       const bookingData = {
-        guest_id: internalUserId,
         property_id: propertyId,
         start_date: startDate,
         end_date: endDate,
@@ -38,7 +43,13 @@ export default function BookingRequest() {
         payment_status: paymentStatus,
       };
 
-      const response = await post(`${BACKEND_URL}/bookings/`, bookingData);
+      const response = await axios.post(
+        `${BACKEND_URL}/bookings/`,
+        bookingData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       console.log("Booking successful:", response.data);
       // Handle successful booking
     } catch (error) {
