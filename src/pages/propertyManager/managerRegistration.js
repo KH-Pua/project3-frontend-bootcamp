@@ -19,12 +19,7 @@ export default function ManagerRegistration() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: "https://api.powderful.xyz",
-          scope: "read:current_user",
-        },
-      }); // Get the token
+      const token = await getAccessTokenSilently(); // Get the token
 
       // Call the backend API to create the property manager
       const response = await axios.post(

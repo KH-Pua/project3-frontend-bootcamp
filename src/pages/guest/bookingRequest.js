@@ -17,8 +17,6 @@ export default function BookingRequest() {
   const [bookingStatus, setBookingStatus] = useState("pending");
   const [paymentStatus, setPaymentStatus] = useState("unpaid");
 
-  const internalUserId = localStorage.getItem("internalUserId");
-
   // Get propertyId from route params
   const { propertyId } = useParams();
 
@@ -29,12 +27,7 @@ export default function BookingRequest() {
     }
 
     try {
-      const token = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: "https://api.powderful.xyz",
-          scope: "read:current_user",
-        },
-      });
+      const token = await getAccessTokenSilently();
       const bookingData = {
         property_id: propertyId,
         start_date: startDate,
