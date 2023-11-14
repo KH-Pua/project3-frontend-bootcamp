@@ -11,10 +11,13 @@ import ErrorPage from "./pages/errorPage.js";
 
 // Guest Pages import
 import BaseTemplate from "./components/baseTemplate.js";
+import DashboardTemplate from "./components/dashboardTemplate.js";
 import Messenger from "./pages/messenger.js";
 import BookingDetails from "./pages/guest/bookingDetails.js";
 import BookingRequest from "./pages/guest/bookingRequest.js";
 import GuestDashboard from "./pages/guest/guestDashboard.js";
+import GuestDashboardProfile from "./pages/guest/guestDashboard-profile.js";
+import GuestDashboardSaved from "./pages/guest/guestDashboard-saved.js";
 import GuestLogin from "./pages/guest/guestLogin.js";
 import GuestRegistration from "./pages/guest/guestRegistration.js";
 import ListingAll from "./pages/guest/listingAll.js";
@@ -52,7 +55,7 @@ const App = () => {
               element={<BookingRequest />}
             />
 
-            <Route path="guestDashboard" element={<GuestDashboard />} />
+            {/* <Route path="guestDashboard" element={<GuestDashboard />} /> */}
             <Route path="bookingDetails" element={<BookingDetails />} />
 
             {/* Manager Pages */}
@@ -66,6 +69,12 @@ const App = () => {
 
             {/* Messenger for both */}
             <Route path="messenger" element={<Messenger />} />
+          </Route>
+
+          <Route path="/guestDashboard" element={<DashboardTemplate />}>
+            <Route index element={<GuestDashboard />} />
+            <Route path="profile" element={<GuestDashboardProfile />} />
+            <Route path='saved' element={<GuestDashboardSaved />} />
           </Route>
 
           {/* Fallback for any unmatched route */}
