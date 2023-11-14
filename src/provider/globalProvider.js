@@ -6,29 +6,13 @@ import BACKEND_URL from "../constants";
 export const GlobalContext = createContext();
 
 export default function GlobalProvider({ children }) {
-  const [token, setToken] = useState("");
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-
-  // Function to fetch and update the access token
-  // const updateToken = async () => {
-  //   if (isAuthenticated) {
-  //     try {
-  //       const accessToken = await getAccessTokenSilently();
-  //       setToken(accessToken);
-  //     } catch (error) {
-  //       console.error("Error fetching access token", error);
-  //       // Handle error scenarios
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   updateToken();
-  // }, [isAuthenticated, getAccessTokenSilently]);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [adultNumber, setAdultNumber] = useState(1);
+  const [childrenNumber, setChildrenNumber] = useState(0);
 
   const infoToPass = {
-    token,
     // Add other state or functions that you need to pass here
+    selectedDate, setSelectedDate, adultNumber, setAdultNumber, childrenNumber, setChildrenNumber
   };
 
   return (

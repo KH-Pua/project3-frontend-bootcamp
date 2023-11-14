@@ -4,16 +4,6 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 
-const navigation = [
-  { name: 'Listings', href: '/listingAll', current: true },
-  { name: 'Booking Request', href: '/bookingRequest', current: false },
-]
-const userNavigation = [
-  { name: 'Dashboard', href: '/guestDashboard' },
-  { name: 'Messenger', href: '/messenger' },
-  { name: 'Sign out', href: '/' },
-]
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -23,6 +13,15 @@ export default function BaseTemplate() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const navigation = [
+    { name: 'Listings', href: '/listingAll', current: true },
+    { name: 'Booking Request', href: '/bookingRequest', current: false },
+  ]
+  const userNavigation = [
+    { name: 'Dashboard', href: '/guestDashboard' },
+    { name: 'Messenger', href: '/messenger' },
+    { name: 'Sign out', href: '/' },
+  ]
   const currentURL = location.pathname;
 
   const [userData, setUserData] = useState("");

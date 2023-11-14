@@ -7,9 +7,6 @@ import { useApi } from "../../components/api.js";
 import BACKEND_URL from "../../constants.js";
 import axios from "axios";
 
-import { EllipsisVerticalIcon } from '@heroicons/react/24/outline'
-import { CheckCircleIcon } from '@heroicons/react/20/solid'
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -22,8 +19,7 @@ export default function GuestDashboard() {
   const { get } = useApi();
 
   // Declare state here.
-  const [bookings, setBookings] = useState([]); // Corrected this line
-  // const [listingAll, setListingAll] = useState("");
+  const [bookings, setBookings] = useState([]);
   const [bookingItems, setBookingItems] = useState("");
 
   // Your code here.
@@ -52,14 +48,7 @@ export default function GuestDashboard() {
 
   useEffect(() => {
     allBookings();
-  },[bookings, bookings.property, bookings.property_assets])
-
-  useEffect(() => {
-    if (bookingItems) {
-      console.log(bookingItems);
-    }
-    
-  },[bookingItems])
+  },[bookings])
 
   if (isLoading) {
     return <div>Loading...</div>; // Show loading indicator while loading
@@ -259,12 +248,6 @@ export default function GuestDashboard() {
 
   return (
     <>
-      {/* <h1 className="text-4xl font-bold">Guest Dashboard</h1>
-      <br />
-      <h2>User Email: {user.email}</h2>
-      <h1>Trips:</h1>
-      <br /> */}
-      {/* <div>{bookingsList}</div> */}
       {bookingItems}
     </>
   );
