@@ -56,7 +56,7 @@ const App = () => {
               element={<BookingRequest />}
             />
 
-            <Route path="guestDashboard" element={<GuestDashboard />} />
+            {/* <Route path="guestDashboard" element={<GuestDashboard />} /> */}
             <Route path="bookingDetails" element={<BookingDetails />} />
 
             {/* Manager Pages */}

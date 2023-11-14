@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, Fragment } from "react";
 import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import Datepicker from "react-tailwindcss-datepicker";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 //import { Auth0Provider } from "../../provider/auth0Provider.js";
@@ -24,6 +25,7 @@ export default function ListingAll() {
   // Declare state here.
   const [listingAll, setListingAll] = useState("");
   const [listingId, setListingId] = useState(0);
+  const [selectedDate, setSelectedDate] = useState("");
   const [open, setOpen] = useState(false);
 
   // Your code here.
@@ -68,7 +70,7 @@ export default function ListingAll() {
       console.log(listingAll[0].property_assets[0].file_link);
       return (
         <div className="bg-white">
-          <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <div className="py-4">
             <h2 className="text-2xl font-bold tracking-tight text-gray-900">
               All Listings
             </h2>
@@ -372,31 +374,9 @@ export default function ListingAll() {
     );
   };
 
-  // For Auth0 authentication use
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     console.log("user: ", user);
-  //   }
-  // }, [isAuthenticated, user]);
-
-  // useEffect(() => {
-  //   console.log("Enter get access token function");
-  //   const getToken = async () => {
-  //     try {
-  //       const token = await getAccessTokenSilently({
-  //         authorizationParams: {
-  //           audience: ``,
-  //           scope: "",
-  //         },
-  //       });
-  //       console.log("Token: ", token);
-  //       localStorage.setItem("accessToken", token);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getToken();
-  // }, [getAccessTokenSilently, user?.sub]);
+  const handleValueChange = (value) => {
+    setSelectedDate(value);
+  };
 
   useEffect(() => {
     async function fetchListingAll() {
@@ -423,13 +403,22 @@ export default function ListingAll() {
 
   return (
     <>
-      <h1 className="text-4xl font-bold">Property Listing</h1>
-      <br />
-      {/* {authOExecutionTesting()} */}
-      <p>Search Bar here</p>
-      <br />
-      {renderThumbnails()}
-      {modalRenderer(listingId)}
+      <header>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">Property Listing</h1>
+        </div>
+      </header>
+      <main className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8 py-8">
+        <div>
+          <Datepicker 
+            value={selectedDate} 
+            onChange={handleValueChange}
+            className=""
+          />
+          {renderThumbnails()}
+          {modalRenderer(listingId)}
+        </div>
+      </main>
     </>
   );
 }

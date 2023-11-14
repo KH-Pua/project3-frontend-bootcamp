@@ -71,26 +71,29 @@ export default function GuestLogin() {
 
   return (
     <>
-      <br />
-      <h1 className="text-4xl font-bold">Guest Login</h1>
-      <br />
-      <h1>Let us breeze through your stay in Niseko</h1>
-      <br />
-      {/* Conditional rendering for login and logout buttons */}
-      {!isAuthenticated && (
-        <button onClick={handleLogin} className="btn btn-primary">
-          Log In
-        </button>
-      )}
-      {isAuthenticated && (
-        <button onClick={handleLogout} className="btn btn-primary">
-          Log Out
-        </button>
-      )}
-      <br />
-      <p>OAuth Panel here</p>
-      <br />
-      <p>Owned a property? Become a property manager now.</p>
+      <header>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
+            Guest Login
+          </h1>
+        </div>
+      </header>
+      <main className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
+        <div>
+          <br />
+          {!isAuthenticated && (
+            <button onClick={handleLogin} className="btn leading-tight tracking-tight ">
+              Log In
+            </button>
+          )}
+          {isAuthenticated && (
+            <button onClick={handleLogout} className="btn leading-tight tracking-tight">
+              Log Out
+            </button>
+          )}
+          <p className="text-sm">Owned a property? Become a property manager now.</p>
+        </div>
+      </main>
     </>
   );
 }

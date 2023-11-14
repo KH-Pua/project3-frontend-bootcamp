@@ -49,29 +49,36 @@ export default function BookingRequest() {
 
   return (
     <>
-      <h1 className="text-4xl font-bold">
-        Booking Request for Property: {propertyId}
-      </h1>
-      <br />
+      <header>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">Booking Request for Property: {propertyId}</h1>
+        </div>
+      </header>
+      <main className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
+        <div>
+          <br />
+          <div>
+          <label>Start Date: </label>
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+          </div>
+          <br />
+          <div>
+            <label>End Date: </label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+          <br />
+          <button className="btn" onClick={handleBooking}>Confirm Booking</button>
+        </div>
+      </main>
 
-      <div>
-        <label>Start Date:</label>
-        <input
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>End Date:</label>
-        <input
-          type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-        />
-      </div>
-      <br />
-      <button onClick={handleBooking}>Confirm Booking</button>
     </>
   );
 }
