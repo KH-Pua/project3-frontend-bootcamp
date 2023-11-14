@@ -13,18 +13,23 @@ export default function ManagerRegistration() {
   const [phone, setPhone] = useState("");
 
   const navigate = useNavigate();
-  const { getAccessTokenSilently } = useAuthGate();
+  const { getAccessTokenSilently, user } = useAuthGate();
   const infoToPass = useContext(GlobalContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = await getAccessTokenSilently(); // Get the token
+      const token = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: "https://api.powderful.xyz",
+          scope: "read:current_user",
+        },
+      }); // Get the token
 
       // Call the backend API to create the property manager
       const response = await axios.post(
         `${BACKEND_URL}/propertymanagers`,
-        { name, email, phone, description },
+        { name, email, phone, description, user_sub: user.sub },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -32,8 +37,7 @@ export default function ManagerRegistration() {
         }
       );
       if (response.status === 201) {
-        // Handle success (e.g., navigate to a different page or show a success message)
-        navigate("/some-success-page");
+        navigate("/propertylisting");
       }
     } catch (error) {
       console.error("Error creating property manager:", error);

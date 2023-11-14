@@ -9,7 +9,7 @@ import axios from "axios";
 export default function BookingRequest() {
   const infoToPass = useContext(GlobalContext);
   const navigate = useNavigate();
-  const { isAuthenticated, getAccessTokenSilently } = useAuthGate();
+  const { isAuthenticated, getAccessTokenSilently, user } = useAuthGate();
   const { post } = useApi();
 
   const [startDate, setStartDate] = useState("");
@@ -27,13 +27,19 @@ export default function BookingRequest() {
     }
 
     try {
-      const token = await getAccessTokenSilently();
+      const token = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: "https://api.powderful.xyz",
+          scope: "read:current_user",
+        },
+      });
       const bookingData = {
         property_id: propertyId,
         start_date: startDate,
         end_date: endDate,
         booking_status: bookingStatus,
         payment_status: paymentStatus,
+        user_sub: user.sub,
       };
 
       const response = await axios.post(
