@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, Fragment } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Dialog, Menu, Transition } from '@headlessui/react';
-import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
 
 import {
     Bars3Icon,
@@ -20,7 +20,6 @@ return classes.filter(Boolean).join(' ')
 export default function DashboardTemplate() {
     const { isAuthenticated, user } = useAuth0();
     const navigate = useNavigate();
-    const location = useLocation();
 
     //Navigation to be edited when "dashboardTemplate.js" is being used for propertyManager
     const navigation = [
@@ -33,7 +32,6 @@ export default function DashboardTemplate() {
       { name: "Messages", href: "/messenger" },
       { name: "Sign out", href: "/" },
     ];
-    const currentURL = location.pathname;
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [userData, setUserData] = useState("");
@@ -112,7 +110,7 @@ export default function DashboardTemplate() {
                               className="text-2xl font-sans text-slate-900 cursor-pointer font-bold"
                               onClick={handleClick}
                             >
-                              powderful.io
+                              powderful.xyz
                             </h1>
                           </div>
                           <nav className="flex flex-1 flex-col">
@@ -205,7 +203,7 @@ export default function DashboardTemplate() {
                       className="text-2xl font-sans text-slate-900 cursor-pointer font-bold"
                       onClick={handleClick}
                     >
-                      powderful.io
+                      powderful.xyz
                     </h1>
                   </div>
                   <nav className="flex flex-1 flex-col">
