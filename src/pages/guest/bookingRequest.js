@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GlobalContext } from "../../provider/globalProvider.js";
 import { useAuthGate } from "../../components/useAuthGate.js";
@@ -7,7 +7,7 @@ import BACKEND_URL from "../../constants.js";
 import axios from "axios";
 
 export default function BookingRequest() {
-  const infoToPass = useContext(GlobalContext);
+  const {selectedDate, adultNumber, childrenNumber} = useContext(GlobalContext);
   const navigate = useNavigate();
   const { isAuthenticated, getAccessTokenSilently, user } = useAuthGate();
   const { post } = useApi();
@@ -56,6 +56,9 @@ export default function BookingRequest() {
       // Handle error
     }
   };
+
+  useEffect(() => {
+  },[selectedDate])
 
   return (
     <>
