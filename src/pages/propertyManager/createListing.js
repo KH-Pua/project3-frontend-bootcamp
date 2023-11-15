@@ -32,7 +32,7 @@ export default function CreateListing() {
           scope: "read:current_user",
         },
       });
-      const response = await axios.get(`${BACKEND_URL}/properties`, {
+      const response = await axios.get(`${BACKEND_URL}/properties/mine`, {
         params: { user_sub: user.sub }, // user_sub should be inside params
         headers: {
           Authorization: `Bearer ${token}`,
