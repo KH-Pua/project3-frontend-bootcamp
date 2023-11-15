@@ -4,7 +4,6 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import Datepicker from "react-tailwindcss-datepicker";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-//import { Auth0Provider } from "../../provider/auth0Provider.js";
 import { GlobalContext } from "../../provider/globalProvider.js";
 import axios from "axios";
 import BACKEND_URL from "../../constants.js";
@@ -26,6 +25,44 @@ export default function ListingAll() {
   const [listingAll, setListingAll] = useState("");
   const [listingId, setListingId] = useState(0);
   const [open, setOpen] = useState(false);
+
+  const handleUserData = async () => {
+    try {
+      const token = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: "https://api.powderful.xyz",
+          scope: "read:current_user",
+        },
+      });
+
+      localStorage.setItem("accessToken", token);
+
+      const userData = {
+        email: user.email,
+        name: user.name,
+        user_sub: user.sub,
+      };
+
+      // Send a request to check if the user exists or needs to be created
+      const response = await axios.post(
+        `${BACKEND_URL}/guests/check-or-create`,
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.data.internalUserId) {
+        // Store the internal user ID for later use
+        localStorage.setItem("internalUserId", response.data.internalUserId);
+      }
+    } catch (error) {
+      console.error("Error during user data handling", error);
+    }
+  };
 
   // Function to handle booking button click
   const handleBookingClick = (propertyId) => {
@@ -426,8 +463,24 @@ export default function ListingAll() {
     //       console.log(err);
     //   }
     // };
-    fetchListingAll();
+
+    if (isAuthenticated && getAccessTokenSilently && user) {
+      fetchListingAll();
+    }
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      console.log("Authenticated");
+      handleUserData();
+    }
+  }, [isAuthenticated, getAccessTokenSilently, user]);
+
+  useEffect(() => {
+    if (selectedDate){
+      console.log(selectedDate);
+    }
+  },[selectedDate])
 
   return (
     <>
@@ -444,8 +497,8 @@ export default function ListingAll() {
               Travel Date
               </label>
               <Datepicker
-                id="datePicker" 
-                value={selectedDate} 
+                id="datePicker"
+                value={selectedDate}
                 onChange={(date) => handleDateChange(date)}
               />
             </div>

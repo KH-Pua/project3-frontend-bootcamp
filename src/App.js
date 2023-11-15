@@ -35,18 +35,9 @@ const App = () => {
     <OAuthProvider>
       <GlobalProvider>
         <Routes>
+          <Route path="/" element={<GuestLogin />} />
+          
           <Route path="/" element={<BaseTemplate />}>
-            {/* Redirect to GuestLogin if not authenticated */}
-            <Route
-              index
-              element={
-                !isAuthenticated ? (
-                  <GuestLogin />
-                ) : (
-                  <Navigate to="/guestDashboard" />
-                )
-              }
-            />
             <Route path="guestRegistration" element={<GuestRegistration />} />
             <Route path="listingAll" element={<ListingAll />} />
             <Route path="bookingRequest" element={<BookingRequest />} />
