@@ -24,6 +24,7 @@ export default function ListingAll() {
   // Declare state here.
   const [listingAll, setListingAll] = useState("");
   const [listingId, setListingId] = useState(0);
+  const [alert, setAlert] = useState("");
   const [open, setOpen] = useState(false);
 
   const handleUserData = async () => {
@@ -66,7 +67,13 @@ export default function ListingAll() {
 
   // Function to handle booking button click
   const handleBookingClick = (propertyId) => {
-    navigate(`/bookingRequest/${propertyId}`);
+    if (selectedDate) {
+      navigate(`/bookingRequest/${propertyId}`);
+    } else {
+      setAlert(
+        <p className="text-base font-bold text-gray-800 text-center">Please select a date before proceed!</p>
+      )
+    };
   };
 
   //Do modals for each listing, and pass filteredStartDate, filteredEndDate, adultsNo, childrenNo to bookingRequest.js
@@ -127,7 +134,7 @@ export default function ListingAll() {
     }
   };
 
-  const modalRenderer = (listingId) => {
+  const renderModal = (listingId) => {
     if (listingAll) {
       if (listingId === 0) {
         let arrayIndex = listingId;
@@ -181,7 +188,10 @@ export default function ListingAll() {
                     <button
                       type="button"
                       className="absolute right-4 top-4 text-gray-400 hover:text-gray-500 sm:right-6 sm:top-8 md:right-6 md:top-6 lg:right-8 lg:top-8"
-                      onClick={() => setOpen(false)}
+                      onClick={() => {
+                        setOpen(false);
+                        setAlert('');
+                      }}
                     >
                       <span className="sr-only">Close</span>
                       <XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -358,7 +368,8 @@ export default function ListingAll() {
                           >
                             Book
                           </button>
-
+                          <br />
+                          {alert}
                           {/* <p className="absolute left-4 top-4 text-center sm:static sm:mt-8">
                             <a href={product.href} className="font-medium text-indigo-600 hover:text-indigo-500">
                               View full details
@@ -466,8 +477,12 @@ export default function ListingAll() {
 
     if (isAuthenticated && getAccessTokenSilently && user) {
       fetchListingAll();
-    }
+    };
   }, []);
+
+  useEffect(() => {
+    renderModal(listingId)
+  },[alert])
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -506,7 +521,7 @@ export default function ListingAll() {
             {dropDownList("children")}
           </div>
           {renderThumbnails()}
-          {modalRenderer(listingId)}
+          {renderModal(listingId)}
         </div>
       </main>
     </>

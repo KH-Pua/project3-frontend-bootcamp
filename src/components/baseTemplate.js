@@ -18,7 +18,6 @@ export default function BaseTemplate() {
 
   const navigation = [
     { name: "Listings", href: "/listingAll", current: true },
-    { name: "Booking Request", href: "/bookingRequest", current: false },
     {
       name: "Create Property Manager",
       href: "/managerRegistration",
@@ -28,7 +27,8 @@ export default function BaseTemplate() {
     { name: "Create Listing", href: "/createListing", current: false },
   ];
   const userNavigation = [
-    { name: 'Dashboard', href: '/guestDashboard', onClick: null},
+    { name: 'Booking Dashboard', href: '/guestDashboard', onClick: null},
+    { name: 'Hosting Dashboard', href: '/managerRegistration', onClick: null},
     { name: 'Messenger', href: '/messenger', onClick: null },
     { name: 'Sign out', href: '', onClick: handleLogout},
   ]
@@ -52,9 +52,9 @@ export default function BaseTemplate() {
           <Disclosure as="nav" className="border-b border-gray-200 bg-white">
             {({ open }) => (
               <>
-                <div className="nav-frame">
-                  <div className="nav-margin">
-                    <div className="flex">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                  <div className="flex h-16 justify-between">
+                    <div className="flex flex-shrink-0 items-center">
                       <div className="nav-flex">
                         <h1
                           className="text-2xl font-sans text-slate-900 cursor-pointer font-bold block lg:hidden"

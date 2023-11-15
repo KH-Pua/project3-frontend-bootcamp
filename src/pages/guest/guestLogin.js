@@ -75,11 +75,6 @@ export default function GuestLogin() {
         <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div>
-              {/* <img
-                className="h-10 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="Your Company"
-              /> */}
               <h1 className="text-2xl font-sans text-slate-900 cursor-pointer font-bold block">
                 powderful.xyz
               </h1>
@@ -115,7 +110,6 @@ export default function GuestLogin() {
                       />
                     </div>
                   </div>
-
                   <div>
                     <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                       Password
@@ -151,7 +145,6 @@ export default function GuestLogin() {
                       </a>
                     </div>
                   </div> */}
-
                   <div>
                     <button
                       // type="submit"
@@ -222,28 +215,6 @@ export default function GuestLogin() {
 
   return (
     <>
-      {/* <header>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
-            Guest Login
-          </h1>
-        </div>
-      </header>
-      <main className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
-        <div>
-          <br />
-          {!isAuthenticated && (
-            <button onClick={handleLogin} className="btn leading-tight tracking-tight ">
-              Log In
-            </button>
-          )}
-          {isAuthenticated && (
-            <button onClick={handleLogout} className="btn leading-tight tracking-tight">
-              Log Out
-            </button>
-          )}
-        </div>
-      </main> */}
       {renderLogin()}
     </>
   );
