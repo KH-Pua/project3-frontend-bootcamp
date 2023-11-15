@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext, Fragment } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function BaseTemplate() {
@@ -14,17 +14,21 @@ export default function BaseTemplate() {
   const location = useLocation();
 
   const navigation = [
-    { name: 'Listings', href: '/listingAll', current: true },
-    { name: 'Booking Request', href: '/bookingRequest', current: false },
-    { name: 'Create Property Manager', href: '/managerRegistration', current: false },
-    { name: 'Property Listing', href: '/propertyListing', current: false },
-    { name: 'Create Listing', href: '/createListing', current: false },
-  ]
+    { name: "Listings", href: "/listingAll", current: true },
+    { name: "Booking Request", href: "/bookingRequest", current: false },
+    {
+      name: "Create Property Manager",
+      href: "/managerRegistration",
+      current: false,
+    },
+    { name: "Property Listing", href: "/propertyListing", current: false },
+    { name: "Create Listing", href: "/createListing", current: false },
+  ];
   const userNavigation = [
-    { name: 'Dashboard', href: '/guestDashboard' },
-    { name: 'Messenger', href: '/messenger' },
-    { name: 'Sign out', href: '/' },
-  ]
+    { name: "Dashboard", href: "/guestDashboard" },
+    { name: "Messenger", href: "/messenger" },
+    { name: "Sign out", href: "/" },
+  ];
   const currentURL = location.pathname;
 
   const [userData, setUserData] = useState("");
@@ -36,8 +40,8 @@ export default function BaseTemplate() {
   }, [isAuthenticated, user]);
 
   const handleClick = (name) => {
-    navigate('/listingAll');
-  }
+    navigate("/listingAll");
+  };
 
   const renderHeader = () => {
     if (userData) {
@@ -46,10 +50,10 @@ export default function BaseTemplate() {
           <Disclosure as="nav" className="border-b border-gray-200 bg-white">
             {({ open }) => (
               <>
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                  <div className="flex h-16 justify-between">
+                <div className="nav-frame">
+                  <div className="nav-margin">
                     <div className="flex">
-                      <div className="flex flex-shrink-0 items-center">
+                      <div className="nav-flex">
                         <h1
                           className="text-2xl font-sans text-slate-900 cursor-pointer font-bold block lg:hidden"
                           onClick={handleClick}
@@ -235,10 +239,6 @@ export default function BaseTemplate() {
       );
     }
   };
-  
-  return (
-    <>
-      {renderHeader()}
-    </>
-  );
+
+  return <>{renderHeader()}</>;
 }
