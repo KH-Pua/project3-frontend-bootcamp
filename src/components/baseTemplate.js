@@ -5,7 +5,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function BaseTemplate() {
@@ -17,11 +17,15 @@ export default function BaseTemplate() {
   };
 
   const navigation = [
-    { name: 'Listings', href: '/listingAll', current: true },
-    { name: 'Create Property Manager', href: '/managerRegistration', current: false },
-    { name: 'Property Listing', href: '/propertyListing', current: false },
-    { name: 'Create Listing', href: '/createListing', current: false },
-  ]
+    { name: "Listings", href: "/listingAll", current: true },
+    {
+      name: "Create Property Manager",
+      href: "/managerRegistration",
+      current: false,
+    },
+    { name: "Property Listing", href: "/propertyListing", current: false },
+    { name: "Create Listing", href: "/createListing", current: false },
+  ];
   const userNavigation = [
     { name: 'Booking Dashboard', href: '/guestDashboard', onClick: null},
     { name: 'Hosting Dashboard', href: '/managerRegistration', onClick: null},
@@ -38,8 +42,8 @@ export default function BaseTemplate() {
   }, [isAuthenticated, user]);
 
   const handleClick = (name) => {
-    navigate('/listingAll');
-  }
+    navigate("/listingAll");
+  };
 
   const renderHeader = () => {
     if (userData) {
@@ -50,8 +54,8 @@ export default function BaseTemplate() {
               <>
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                   <div className="flex h-16 justify-between">
-                    <div className="flex">
-                      <div className="flex flex-shrink-0 items-center">
+                    <div className="flex flex-shrink-0 items-center">
+                      <div className="nav-flex">
                         <h1
                           className="text-2xl font-sans text-slate-900 cursor-pointer font-bold block lg:hidden"
                           onClick={handleClick}
@@ -240,10 +244,6 @@ export default function BaseTemplate() {
       );
     }
   };
-  
-  return (
-    <>
-      {renderHeader()}
-    </>
-  );
+
+  return <>{renderHeader()}</>;
 }
