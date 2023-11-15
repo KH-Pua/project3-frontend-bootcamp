@@ -18,13 +18,13 @@ export default function BaseTemplate() {
 
   const navigation = [
     { name: 'Listings', href: '/listingAll', current: true },
-    { name: 'Booking Request', href: '/bookingRequest', current: false },
     { name: 'Create Property Manager', href: '/managerRegistration', current: false },
     { name: 'Property Listing', href: '/propertyListing', current: false },
     { name: 'Create Listing', href: '/createListing', current: false },
   ]
   const userNavigation = [
-    { name: 'Dashboard', href: '/guestDashboard', onClick: null},
+    { name: 'Booking Dashboard', href: '/guestDashboard', onClick: null},
+    { name: 'Hosting Dashboard', href: '/managerRegistration', onClick: null},
     { name: 'Messenger', href: '/messenger', onClick: null },
     { name: 'Sign out', href: '', onClick: handleLogout},
   ]
