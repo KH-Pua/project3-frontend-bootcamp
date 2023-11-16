@@ -15,7 +15,7 @@ export default function ManagerDashboard() {
 
   return (
     <>
-      <h1 className="text-4xl font-bold">Manager Dashboard</h1>
+      <h1 className="text-4xl font-bold">Your Bookings</h1>
       <br />
       <p>1.Real Estate Name here</p>
       <p>2.Real Estate Name here</p>
