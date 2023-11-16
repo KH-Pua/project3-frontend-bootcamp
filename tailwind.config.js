@@ -13,6 +13,10 @@ module.exports = {
       },
     },
   },
+  daisyui: {
+    themes: [],
+  },
+  darkMode: '',
   plugins: [
     require("daisyui"),
     require('@tailwindcss/aspect-ratio'),

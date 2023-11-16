@@ -2,30 +2,36 @@ import { useState, useEffect, useContext, Fragment } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function BaseTemplate() {
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated, logout, user } = useAuth0();
   const navigate = useNavigate();
-  const location = useLocation();
+
+  const handleLogout = () => {
+    logout({ returnTo: window.location.origin });
+  };
 
   const navigation = [
-    { name: 'Listings', href: '/listingAll', current: true },
-    { name: 'Booking Request', href: '/bookingRequest', current: false },
-    { name: 'Create Property Manager', href: '/managerRegistration', current: false },
-    { name: 'Property Listing', href: '/propertyListing', current: false },
-    { name: 'Create Listing', href: '/createListing', current: false },
-  ]
+    { name: "Listings", href: "/listingAll", current: true },
+    {
+      name: "Create Property Manager",
+      href: "/managerRegistration",
+      current: false,
+    },
+    { name: "Property Listing", href: "/propertyListing", current: false },
+    { name: "Create Listing", href: "/createListing", current: false },
+  ];
   const userNavigation = [
-    { name: 'Dashboard', href: '/guestDashboard' },
-    { name: 'Messenger', href: '/messenger' },
-    { name: 'Sign out', href: '/' },
+    { name: 'Booking Dashboard', href: '/guestDashboard', onClick: null},
+    { name: 'Hosting Dashboard', href: '/managerRegistration', onClick: null},
+    { name: 'Messenger', href: '/messenger', onClick: null },
+    { name: 'Sign out', href: '', onClick: handleLogout},
   ]
-  const currentURL = location.pathname;
 
   const [userData, setUserData] = useState("");
 
@@ -36,8 +42,8 @@ export default function BaseTemplate() {
   }, [isAuthenticated, user]);
 
   const handleClick = (name) => {
-    navigate('/listingAll');
-  }
+    navigate("/listingAll");
+  };
 
   const renderHeader = () => {
     if (userData) {
@@ -48,19 +54,19 @@ export default function BaseTemplate() {
               <>
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                   <div className="flex h-16 justify-between">
-                    <div className="flex">
-                      <div className="flex flex-shrink-0 items-center">
+                    <div className="flex flex-shrink-0 items-center">
+                      <div className="nav-flex">
                         <h1
                           className="text-2xl font-sans text-slate-900 cursor-pointer font-bold block lg:hidden"
                           onClick={handleClick}
                         >
-                          powderful.io
+                          powderful.xyz
                         </h1>
                         <h1
                           className="text-2xl font-sans text-slate-900 cursor-pointer font-bold hidden lg:block"
                           onClick={handleClick}
                         >
-                          powderful.io
+                          powderful.xyz
                         </h1>
                       </div>
                       <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
@@ -120,6 +126,7 @@ export default function BaseTemplate() {
                                   <NavLink
                                     key={item.name}
                                     to={item.href}
+                                    onClick={item.onClick}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
@@ -209,7 +216,9 @@ export default function BaseTemplate() {
                           key={item.name}
                           className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                         >
-                          <NavLink to={item.href}>{item.name}</NavLink>
+                          <NavLink to={item.href} onClick={item.onClick}>
+                            {item.name}
+                          </NavLink>
                         </Disclosure.Button>
                       ))}
                     </div>
@@ -235,10 +244,6 @@ export default function BaseTemplate() {
       );
     }
   };
-  
-  return (
-    <>
-      {renderHeader()}
-    </>
-  );
+
+  return <>{renderHeader()}</>;
 }
