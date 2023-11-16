@@ -1,2 +1,2 @@
-const BACKEND_URL = "https://powderful.fly.dev";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 export default BACKEND_URL;
