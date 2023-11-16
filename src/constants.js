@@ -1,2 +1,2 @@
-const BACKEND_URL = "http://powderful.fly.dev";
+const BACKEND_URL = "https://powderful.fly.dev";
 export default BACKEND_URL;
