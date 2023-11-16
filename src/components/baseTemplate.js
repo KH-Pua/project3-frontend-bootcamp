@@ -13,6 +13,7 @@ export default function BaseTemplate() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    // change to https://powderful.netlify.app/ when doing frontend deployment to Netlify
     logout({ returnTo: window.location.origin });
   };
 
