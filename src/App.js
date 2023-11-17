@@ -22,6 +22,10 @@ import GuestLogin from "./pages/guest/guestLogin.js";
 import GuestRegistration from "./pages/guest/guestRegistration.js";
 import ListingAll from "./pages/guest/listingAll.js";
 
+// Payment Success or Cancel import
+import PaymentSuccess from "./pages/payment/paymentSuccess.js";
+import PaymentCancel from "./pages/payment/paymentCancel.js";
+
 // Manager Pages import
 import CreateListing from "./pages/propertyManager/createListing.js";
 import ListingDetails from "./pages/propertyManager/listingDetails.js";
@@ -36,7 +40,7 @@ const App = () => {
       <GlobalProvider>
         <Routes>
           <Route path="/" element={<GuestLogin />} />
-          
+
           <Route path="/" element={<BaseTemplate />}>
             <Route path="guestRegistration" element={<GuestRegistration />} />
             <Route path="listingAll" element={<ListingAll />} />
@@ -49,6 +53,9 @@ const App = () => {
             {/* <Route path="guestDashboard" element={<GuestDashboard />} /> */}
             <Route path="bookingDetails" element={<BookingDetails />} />
 
+            {/* Payment success or cancel */}
+            <Route path="/success" element={<PaymentSuccess />} />
+            <Route path="/cancel" element={<PaymentCancel />} />
             {/* Manager Pages */}
             <Route
               path="managerRegistration"
@@ -65,7 +72,7 @@ const App = () => {
           <Route path="/guestDashboard" element={<DashboardTemplate />}>
             <Route index element={<GuestDashboard />} />
             <Route path="profile" element={<GuestDashboardProfile />} />
-            <Route path='saved' element={<GuestDashboardSaved />} />
+            <Route path="saved" element={<GuestDashboardSaved />} />
           </Route>
 
           {/* Fallback for any unmatched route */}
