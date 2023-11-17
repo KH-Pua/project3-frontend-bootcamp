@@ -45,8 +45,6 @@ const App = () => {
               path="bookingRequest/:propertyId"
               element={<BookingRequest />}
             />
-
-            {/* <Route path="guestDashboard" element={<GuestDashboard />} /> */}
             <Route path="bookingDetails" element={<BookingDetails />} />
 
             {/* Manager Pages */}
@@ -62,6 +60,7 @@ const App = () => {
             <Route path="messenger" element={<Messenger />} />
           </Route>
 
+          {/* Manager Pages */}
           <Route path="/guestDashboard" element={<DashboardTemplate />}>
             <Route index element={<GuestDashboard />} />
             <Route path="profile" element={<GuestDashboardProfile />} />

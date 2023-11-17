@@ -140,11 +140,36 @@ export default function ListingAll() {
         let arrayIndex = listingId;
         return modal(arrayIndex);
       } else {
-        let arrayIndex = listingId - 1;
+        const arrayIndex = binarySearch(listingAll, listingId)
         return modal(arrayIndex);
       }
     }
   };
+
+  const binarySearch = (arr, target) => {
+    let left = 0;
+    let right = arr.length - 1;
+  
+    while (left <= right) {
+      const mid = Math.floor((left + right) / 2);
+  
+      // Check if the middle element is the target
+      if (arr[mid].id === target) {
+        return mid; // Target found, return the index
+      }
+  
+      // If the target is greater, ignore the left half
+      if (arr[mid].id < target) {
+        left = mid + 1;
+      } 
+      // If the target is smaller, ignore the right half
+      else {
+        right = mid - 1;
+      }
+    }
+  
+    return -1; // Target not found
+  }
 
   const modal = (arrayIndex) => {
     const listing = listingAll[arrayIndex];
@@ -496,6 +521,10 @@ export default function ListingAll() {
       console.log(selectedDate);
     }
   },[selectedDate])
+
+  useEffect(() => {
+    console.log(listingAll);
+  },[listingAll])
 
   return (
     <>
