@@ -60,7 +60,6 @@ export default function BookingRequest() {
         }
       );
       console.log("Booking successful:", response.data);
-      initializeSearchBox();
 
       // Create Stripe checkout session
       const paymentAmount = handlePrice({
@@ -81,7 +80,7 @@ export default function BookingRequest() {
 
       // Redirect to Stripe checkout
       const stripe = window.Stripe(
-        "pk_test_51N7HdDEKnKGUDkS93X3J4SKEDeSW4F8td0NQhlu4NHASoKwrj9zOtm4i4yWXRXzKGv6KGU9zUiLtqzknsVHRK02x00qy7Gd5Qj"
+        "pk_test_51ODGWPAJDjTgvIdv30TbAU8agqkmQlUXvPJAhJimYkJuSW0nGrl4X46miHqYts9eGde9RYfGjNUUQnVr2XZCaijr00WNGcXIao"
       ); // Replace with Stripe publishable key
       await stripe.redirectToCheckout({
         sessionId: sessionResponse.data.sessionId,
@@ -118,11 +117,7 @@ export default function BookingRequest() {
       return bookingTotal;
     }
   };
-  const initializeSearchBox = () => {
-    setSelectedDate("");
-    setAdultNumber(1);
-    setChildrenNumber(0);
-  };
+
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
 
