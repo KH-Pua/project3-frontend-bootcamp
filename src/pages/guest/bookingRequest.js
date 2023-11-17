@@ -71,7 +71,7 @@ export default function BookingRequest() {
         {
           amount: paymentAmount,
           description: "Booking Payment",
-          bookingId: response.data.id, // Assuming booking ID is returned from the booking creation API
+          bookingId: response.data.id,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -85,8 +85,6 @@ export default function BookingRequest() {
       await stripe.redirectToCheckout({
         sessionId: sessionResponse.data.sessionId,
       });
-
-      navigate("/listingAll");
     } catch (error) {
       console.error("Error in booking or payment process", error);
       // Handle error
