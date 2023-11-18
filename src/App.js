@@ -11,7 +11,8 @@ import ErrorPage from "./pages/errorPage.js";
 
 // Guest Pages import
 import BaseTemplate from "./components/baseTemplate.js";
-import DashboardTemplate from "./components/dashboardTemplate.js";
+import GuestDashboardTemplate from "./components/guestDashboardTemplate.js";
+import ManagerDashboardTemplate from "./components/managerDashboardTemplate.js";
 import Messenger from "./pages/messenger.js";
 import BookingDetails from "./pages/guest/bookingDetails.js";
 import BookingRequest from "./pages/guest/bookingRequest.js";
@@ -59,19 +60,26 @@ const App = () => {
               path="managerRegistration"
               element={<ManagerRegistration />}
             />
-            <Route path="propertyListing" element={<PropertyListing />} />
-            <Route path="listingDetails" element={<ListingDetails />} />
-            <Route path="createListing" element={<CreateListing />} />
-
+          
             {/* Messenger for both */}
             <Route path="messenger" element={<Messenger />} />
           </Route>
 
-          {/* Manager Pages */}
-          <Route path="/guestDashboard" element={<DashboardTemplate />}>
+          {/* Guest Dashboard Pages */}
+          <Route path="/guestDashboard" element={<GuestDashboardTemplate />}>
             <Route index element={<GuestDashboard />} />
-            <Route path="profile" element={<GuestDashboardProfile />} />
             <Route path="saved" element={<GuestDashboardSaved />} />
+            <Route path="messenger" element={<Messenger />} />
+            <Route path="profile" element={<GuestDashboardProfile />} />
+          </Route>
+
+          {/* Manager Dashboard Pages */}
+          <Route path="/managerDashboard" element={<ManagerDashboardTemplate />}>
+            <Route index element={<PropertyListing />} />
+            <Route path="createListing" element={<CreateListing />} />
+            <Route path="listingDetails" element={<ListingDetails />} />
+            <Route path="messenger" element={<Messenger />} />
+            <Route path="profile" element={<GuestDashboardProfile />} />
           </Route>
 
           {/* Fallback for any unmatched route */}

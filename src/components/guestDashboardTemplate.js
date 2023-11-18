@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext, Fragment } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Dialog, Menu, Transition } from '@headlessui/react';
-import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
+import { GlobalContext } from "../provider/globalProvider.js";
 
 import {
     Bars3Icon,
@@ -10,6 +11,7 @@ import {
     HomeIcon,
     UsersIcon,
     XMarkIcon,
+    ChatBubbleLeftEllipsisIcon
   } from '@heroicons/react/24/outline'
   import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 
@@ -17,24 +19,60 @@ function classNames(...classes) {
 return classes.filter(Boolean).join(' ')
 }
 
-export default function DashboardTemplate() {
+export default function GuestDashboardTemplate() {
     const { isAuthenticated, user } = useAuth0();
+    const infoToPass = useContext(GlobalContext);
     const navigate = useNavigate();
+    const location = useLocation();
+    
+    const [sidebarNavigation, setSidebarNavigation] = useState("");
+    const [dropdownNavigation, setDropdownNavigation] = useState("");
+    const [template, setTemplate] = useState("");
+    const [pathName, setPathName] = useState("");
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [userData, setUserData] = useState("");
 
-    //Navigation to be edited when "dashboardTemplate.js" is being used for propertyManager
     const navigation = [
-      { name: "Dashboard", href: "/guestDashboard", icon: HomeIcon, current: true },
-      { name: "Profile", href: "/guestDashboard/profile", icon: UsersIcon, current: false },
+      { name: "Guest Dashboard", href: "/guestDashboard", icon: HomeIcon, current: false },
       { name: "Saved", href: "/guestDashboard/saved", icon: FolderIcon, current: false },
+      { name: "Messenger", href: "/guestDashboard/messenger", icon: ChatBubbleLeftEllipsisIcon, current: false },
+      { name: "Profile", href: "/guestDashboard/profile", icon: UsersIcon, current: false },
     ];
+
     const userNavigation = [
       { name: "Home", href: "/listingAll" },
-      { name: "Messages", href: "/messenger" },
+      { name: "Manager Dashboard", href: "/managerDashboard" },
       { name: "Sign out", href: "/" },
     ];
 
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [userData, setUserData] = useState("");
+    const selectedPageButtonHandler = (array, route) => {
+      return array.map((navObj) => {
+        if (navObj.href === route) {
+          navObj.current = true;
+        };
+        return navObj;
+      })
+    }
+
+    useEffect(() => {
+      let route = location.pathname;
+
+      let updatedNav = selectedPageButtonHandler(navigation, route);
+      setSidebarNavigation(updatedNav);
+      setDropdownNavigation(userNavigation);
+    },[])
+
+    useEffect(() => {
+      if (pathName) {
+        console.log(pathName)
+        let updatedNav = selectedPageButtonHandler(navigation, pathName);
+        setSidebarNavigation(updatedNav);
+      }
+    },[pathName])
+
+    useEffect(() => {
+      renderSideBarWithHeader();
+    },[sidebarNavigation, dropdownNavigation, sidebarOpen])
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -47,8 +85,8 @@ export default function DashboardTemplate() {
     }
 
     const renderSideBarWithHeader = () => {
-      if (userData) {
-        return (
+      if (userData && sidebarNavigation && dropdownNavigation) {
+        setTemplate (
           <>
             <div>
               <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -117,10 +155,14 @@ export default function DashboardTemplate() {
                             <ul className="flex flex-1 flex-col gap-y-7">
                               <li>
                                 <ul className="-mx-2 space-y-1">
-                                  {navigation.map((item) => (
+                                  {sidebarNavigation.map((item) => (
                                     <li key={item.name}>
                                       <NavLink
                                         to={item.href}
+                                        onClick={() => {
+                                          setSidebarOpen(false);
+                                          setPathName(item.href)
+                                        }}
                                         className={classNames(
                                           item.current
                                             ? "bg-gray-50 text-indigo-600"
@@ -210,10 +252,11 @@ export default function DashboardTemplate() {
                     <ul className="flex flex-1 flex-col gap-y-7">
                       <li>
                         <ul className="-mx-2 space-y-1">
-                          {navigation.map((item) => (
+                          {sidebarNavigation.map((item) => (
                             <li key={item.name}>
                               <NavLink
                                 to={item.href}
+                                onClick={() => setPathName(item.href)}
                                 className={classNames(
                                   item.current
                                     ? "bg-gray-50 text-indigo-600"
@@ -368,7 +411,7 @@ export default function DashboardTemplate() {
                           leaveTo="transform opacity-0 scale-95"
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                            {userNavigation.map((item) => (
+                            {dropdownNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
                                   <NavLink
@@ -391,7 +434,10 @@ export default function DashboardTemplate() {
                 </div>
                 <main className="py-10">
                   <div className="px-4 sm:px-6 lg:px-8">
-                    <Outlet />
+                    <Outlet 
+                      // pathName={pathName}
+                      // setPathName={setPathName}
+                    />
                   </div>
                 </main>
               </div>
@@ -403,7 +449,7 @@ export default function DashboardTemplate() {
 
     return (
         <>
-        {renderSideBarWithHeader()}
+        {template}
         </>
     )
 };
