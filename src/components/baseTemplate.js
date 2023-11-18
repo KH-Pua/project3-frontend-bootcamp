@@ -24,13 +24,11 @@ export default function BaseTemplate() {
       href: "/managerRegistration",
       current: false,
     },
-    { name: "Property Listing", href: "/propertyListing", current: false },
-    { name: "Create Listing", href: "/createListing", current: false },
   ];
   const userNavigation = [
     { name: 'Booking Dashboard', href: '/guestDashboard', onClick: null},
-    { name: 'Hosting Dashboard', href: '/managerRegistration', onClick: null},
-    { name: 'Messenger', href: '/messenger', onClick: null },
+    { name: 'Hosting Dashboard', href: '/managerDashboard', onClick: null},
+    // { name: 'Messenger', href: '/messenger', onClick: null },
     { name: 'Sign out', href: '', onClick: handleLogout},
   ]
 
