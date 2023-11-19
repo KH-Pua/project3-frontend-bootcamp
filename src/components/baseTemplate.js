@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, Fragment } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 
 function classNames(...classes) {
@@ -20,19 +20,17 @@ export default function BaseTemplate() {
   const navigation = [
     { name: "Listings", href: "/listingAll", current: true },
     {
-      name: "Create Property Manager",
-      href: "/managerRegistration",
+      name: "Guest Dashboard",
+      href: "/guestDashboard",
       current: false,
     },
-    { name: "Property Listing", href: "/propertyListing", current: false },
-    { name: "Create Listing", href: "/createListing", current: false },
+    { name: "Manager Dashboard", href: "/managerDashboard", current: false },
   ];
   const userNavigation = [
-    { name: 'Booking Dashboard', href: '/guestDashboard', onClick: null},
-    { name: 'Hosting Dashboard', href: '/managerRegistration', onClick: null},
-    { name: 'Messenger', href: '/messenger', onClick: null },
-    { name: 'Sign out', href: '', onClick: handleLogout},
-  ]
+    { name: "Guest Dashboard", href: "/guestDashboard", onClick: null },
+    { name: "Manager Dashboard", href: "/managerDashboard", onClick: null },
+    { name: "Sign out", href: "", onClick: handleLogout },
+  ];
 
   const [userData, setUserData] = useState("");
 

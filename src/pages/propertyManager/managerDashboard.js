@@ -88,15 +88,13 @@ export default function ManagerDashboard() {
 
   return (
     <div className="bg-white">
-      <div className="mx-auto max-w-7xl sm:px-2 lg:px-8">
-        <div className="mx-auto max-w-2xl px-4 lg:max-w-4xl lg:px-0">
-          <h2 className="text-3xl font-bold mt-4 text-gray-900 sm:text-3xl">
-            Your Property Bookings
-          </h2>
-          <p className="mt-2 text-sm text-gray-500">
-            Manage and check the status of all your bookings
-          </p>
-        </div>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl font-bold mt-4 text-gray-900 sm:text-3xl">
+          Your Property Bookings
+        </h2>
+        <p className="mt-2 text-sm text-gray-500">
+          Manage and check the status of all your bookings
+        </p>
       </div>
 
       <div className="mt-16">

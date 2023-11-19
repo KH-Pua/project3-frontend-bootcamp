@@ -18,9 +18,12 @@ import BookingRequest from "./pages/guest/bookingRequest.js";
 import GuestDashboard from "./pages/guest/guestDashboard.js";
 import GuestDashboardProfile from "./pages/guest/guestDashboard-profile.js";
 import GuestDashboardSaved from "./pages/guest/guestDashboard-saved.js";
+import GuestDashboardMessage from "./pages/guest/guestDashboard-message.js";
+
 import GuestLogin from "./pages/guest/guestLogin.js";
 import GuestRegistration from "./pages/guest/guestRegistration.js";
 import ListingAll from "./pages/guest/listingAll.js";
+import ManagerDashboardTemplate from "./components/managerDashboardTemplate.js";
 
 // Payment Success or Cancel import
 import PaymentSuccess from "./pages/payment/paymentSuccess.js";
@@ -31,6 +34,8 @@ import CreateListing from "./pages/propertyManager/createListing.js";
 import ListingDetails from "./pages/propertyManager/listingDetails.js";
 import ManagerRegistration from "./pages/propertyManager/managerRegistration.js";
 import PropertyListing from "./pages/propertyManager/managerDashboard.js";
+import ManagerDashboard from "./pages/propertyManager/managerDashboard.js";
+import ManagerListing from "./pages/propertyManager/managerListing.js";
 
 const App = () => {
   const { isAuthenticated } = useAuth0();
@@ -54,6 +59,7 @@ const App = () => {
             {/* Payment success or cancel */}
             <Route path="/success" element={<PaymentSuccess />} />
             <Route path="/cancel" element={<PaymentCancel />} />
+
             {/* Manager Pages */}
             <Route
               path="managerRegistration"
@@ -67,11 +73,23 @@ const App = () => {
             <Route path="messenger" element={<Messenger />} />
           </Route>
 
-          {/* Manager Pages */}
+          {/* Guest Pages */}
           <Route path="/guestDashboard" element={<DashboardTemplate />}>
             <Route index element={<GuestDashboard />} />
             <Route path="profile" element={<GuestDashboardProfile />} />
+            <Route path="message" element={<GuestDashboardMessage />} />
             <Route path="saved" element={<GuestDashboardSaved />} />
+          </Route>
+
+          {/* Manager Pages */}
+          <Route
+            path="/managerDashboard"
+            element={<ManagerDashboardTemplate />}
+          >
+            <Route index element={<ManagerDashboard />} />
+            <Route path="register" element={<ManagerRegistration />} />
+            <Route path="createlisting" element={<CreateListing />} />
+            <Route path="listing" element={<ManagerListing />} />
           </Route>
 
           {/* Fallback for any unmatched route */}

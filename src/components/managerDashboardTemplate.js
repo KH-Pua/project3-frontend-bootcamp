@@ -21,42 +21,40 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function ManagerDashboardTemplate() {
+export default function DashboardTemplate() {
   const { isAuthenticated, user } = useAuth0();
   const navigate = useNavigate();
 
-  //Guest Dashboard
+  //Navigation to be edited when "dashboardTemplate.js" is being used for propertyManager
   const navigation = [
     {
-      name: "Guest Dashboard",
-      href: "/guestDashboard",
+      name: "Manager Dashboard",
+      href: "/managerDashboard",
       icon: HomeIcon,
       current: true,
     },
-
     {
-      name: "Guest Profile",
-      href: "/guestDashboard/profile",
+      name: "Manager Registration",
+      href: "/managerDashboard/register",
       icon: UsersIcon,
       current: false,
     },
     {
-      name: "Guest Messages",
-      href: "/guestDashboard/message",
-      icon: EnvelopeIcon,
+      name: "Create Listing",
+      href: "/managerDashboard/createlisting",
+      icon: FolderIcon,
       current: false,
     },
-
     {
-      name: "Guest Watchlist",
-      href: "/guestDashboard/saved",
+      name: "View Listings",
+      href: "/managerDashboard/listing",
       icon: FolderIcon,
       current: false,
     },
   ];
   const userNavigation = [
     { name: "Home", href: "/listingAll" },
-    { name: "Manager Dashboard", href: "/managerDashboard" },
+    { name: "Guest Dashboard", href: "/guestDashboard" },
     { name: "Sign out", href: "/" },
   ];
 
@@ -170,6 +168,48 @@ export default function ManagerDashboardTemplate() {
                                 ))}
                               </ul>
                             </li>
+                            {/* <li>
+                                      <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
+                                      <ul role="list" className="-mx-2 mt-2 space-y-1">
+                                        {teams.map((team) => (
+                                          <li key={team.name}>
+                                            <a
+                                              href={team.href}
+                                              className={classNames(
+                                                team.current
+                                                  ? 'bg-gray-50 text-indigo-600'
+                                                  : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
+                                                'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                              )}
+                                            >
+                                              <span
+                                                className={classNames(
+                                                  team.current
+                                                    ? 'text-indigo-600 border-indigo-600'
+                                                    : 'text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600',
+                                                  'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white'
+                                                )}
+                                              >
+                                                {team.initial}
+                                              </span>
+                                              <span className="truncate">{team.name}</span>
+                                            </a>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </li>
+                                    <li className="mt-auto">
+                                      <a
+                                        href="#"
+                                        className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+                                      >
+                                        <Cog6ToothIcon
+                                          className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
+                                          aria-hidden="true"
+                                        />
+                                        Settings
+                                      </a>
+                                    </li> */}
                           </ul>
                         </nav>
                       </div>
@@ -221,6 +261,48 @@ export default function ManagerDashboardTemplate() {
                         ))}
                       </ul>
                     </li>
+                    {/* <li>
+                              <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
+                              <ul className="-mx-2 mt-2 space-y-1">
+                                {teams.map((team) => (
+                                  <li key={team.name}>
+                                    <a
+                                      href={team.href}
+                                      className={classNames(
+                                        team.current
+                                          ? 'bg-gray-50 text-indigo-600'
+                                          : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
+                                        'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                      )}
+                                    >
+                                      <span
+                                        className={classNames(
+                                          team.current
+                                            ? 'text-indigo-600 border-indigo-600'
+                                            : 'text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600',
+                                          'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white'
+                                        )}
+                                      >
+                                        {team.initial}
+                                      </span>
+                                      <span className="truncate">{team.name}</span>
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </li> */}
+                    {/* <li className="mt-auto">
+                              <a
+                                href="#"
+                                className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+                              >
+                                <Cog6ToothIcon
+                                  className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
+                                  aria-hidden="true"
+                                />
+                                Settings
+                              </a>
+                            </li> */}
                   </ul>
                 </nav>
               </div>
