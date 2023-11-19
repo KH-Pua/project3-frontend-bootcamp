@@ -7,9 +7,6 @@ import BACKEND_URL from "../../constants.js";
 export default function GuestRegistration() {
   const infoToPass = useContext(GlobalContext);
   const navigate = useNavigate();
-  // Declare state here.
-
-  // Your code here.
 
   const renderRegistrationForm = () => {
     return (

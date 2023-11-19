@@ -31,135 +31,98 @@ export default function CreateListing() {
   const [description, setDescription] = useState("");
   const [bedNumber, setBedNumber] = useState(1);
   const [bathNumber, setBathNumber] = useState(1);
-  //const [propertyListings, setPropertyListings] = useState([]);
+
+  //State for forms
+  const [alert, setAlert] = useState("");
+  const [listingForm, setListingForm] = useState("");
 
   //State for image upload
   const [file, setFile] = useState(null);
   const [fileInputInitialValue, setFileInputInitialValue] = useState("");
   const [imagePreviewURL, setImagePreviewURL] = useState("");
 
-  // Function to fetch property listings
-  // const fetchPropertyListings = async () => {
-  //   try {
-  //     const token = await getAccessTokenSilently({
-  //       authorizationParams: {
-  //         audience: "https://api.powderful.xyz",
-  //         scope: "read:current_user",
-  //       },
-  //     });
-  //     const response = await axios.get(`${BACKEND_URL}/properties/mine`, {
-  //       params: { user_sub: user.sub }, // user_sub should be inside params
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     setPropertyListings(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching property listings:", error);
-  //     // Handle errors appropriately
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      // Get Auth0 access token
-      const token = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: "https://api.powderful.xyz",
-          scope: "read:current_user",
-        },
-      });
-
-      // Call the backend API to create the property listing
-      const response = await axios.post(
-        `${BACKEND_URL}/properties`,
-        {
-          title,
-          propertytype,
-          configuration,
-          floorsize,
-          address,
-          amenities,
-          roomrate,
-          coordinates,
-          description,
-          user_sub: user.sub,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      // Verified the id of the created listing, then upload photo to Firebase
+    if (title && propertytype && configuration && floorsize && address && amenities && roomrate && description) {
       try {
-        if (response.data.id) {
-
-          const fileRef = sRef(
-            storage,
-            `${STORAGE_KEY}/${response.data.id}/${file.name}`
-          );
-
-          await uploadBytes(fileRef, file);
-          const imageURL = await getDownloadURL(fileRef);
-
-          // Call the backend API to store the image URL
-          const imgUploadResponse = await axios.post(
-            `${BACKEND_URL}/propertyassets`,
-            {
-              property_id: response.data.id,
-              file_link: imageURL,
+        // Get Auth0 access token
+        const token = await getAccessTokenSilently({
+          authorizationParams: {
+            audience: "https://api.powderful.xyz",
+            scope: "read:current_user",
+          },
+        });
+  
+        // Call the backend API to create the property listing
+        const response = await axios.post(
+          `${BACKEND_URL}/properties`,
+          {
+            title,
+            propertytype,
+            configuration,
+            floorsize,
+            address,
+            amenities,
+            roomrate,
+            coordinates,
+            description,
+            user_sub: user.sub,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
             },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          if (imgUploadResponse.status === 201) {
-            navigate("/propertylisting");
           }
+        );
+  
+        // Verified the id of the created listing, then upload photo to Firebase
+        try {
+          if (response.data.id) {
+  
+            const fileRef = sRef(
+              storage,
+              `${STORAGE_KEY}/${response.data.id}/${file.name}`
+            );
+  
+            await uploadBytes(fileRef, file);
+            const imageURL = await getDownloadURL(fileRef);
+  
+            // Call the backend API to store the image URL
+            const imgUploadResponse = await axios.post(
+              `${BACKEND_URL}/propertyassets`,
+              {
+                property_id: response.data.id,
+                file_link: imageURL,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+  
+            if (imgUploadResponse.status === 201) {
+              navigate("/managerDashboard/");
+            }
+          }
+        } catch (error) {
+          console.error("Error handling photo upload:", error);
         }
-      } catch (error) {
-        console.error("Error handling photo upload:", error);
-      }
 
-      //fetchPropertyListings(); // Refresh the list of property listings
-    } catch (error) {
-      console.error("Error creating property listings:", error);
-      // Handle errors (e.g., show an error message)
-    }
+      } catch (error) {
+        console.error("Error creating property listings:", error);
+      }
+    } else {
+      setAlert(
+        <p className="text-base font-bold text-gray-800 text-center">Please input all the fields before proceed.</p>
+      )
+    };
   };
 
   const handleFileChange = (e) => {
-    // "e.target.files" gets all the information of the selected file
-    console.log(e.target.files[0]);
     setFile(e.target.files[0]);
     setImagePreviewURL(URL.createObjectURL(e.target.files[0]));
   };
-
-  // Grid format UI to be use for multiple photos upload 
-  // const imageGrid = () => {
-  //   return (
-  //     <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-  //       {files.map((file) => (
-  //         <li key={file.source} className="relative">
-  //           <div className="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-  //             <img src={file.source} alt="" className="pointer-events-none object-cover group-hover:opacity-75" />
-  //             <button type="button" className="absolute inset-0 focus:outline-none">
-  //               <span className="sr-only">View details for {file.title}</span>
-  //             </button>
-  //           </div>
-  //           <p className="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">{file.title}</p>
-  //           <p className="pointer-events-none block text-sm font-medium text-gray-500">{file.size}</p>
-  //         </li>
-  //       ))}
-  //   </ul>
-  //   )
-  // }
 
   useEffect(() => {
     const configString = `${bedNumber}BDR, ${bathNumber}BA`;
@@ -167,8 +130,8 @@ export default function CreateListing() {
   },[bedNumber, bathNumber])
 
   useEffect(() => {
-    console.log(propertytype);
-  },[propertytype])
+    renderListingForm();
+  },[title, propertytype, configuration, floorsize, address, amenities, roomrate, coordinates, description, imagePreviewURL, file])
   
   const handleSelectPropertyType = (e) => {
     e.preventDefault();
@@ -180,8 +143,7 @@ export default function CreateListing() {
     for( let i = 1; i <= 10; i++) {
       count.push(i);
     };
-
-    return (
+    setListingForm (
       <form onSubmit={handleSubmit}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
@@ -214,7 +176,6 @@ export default function CreateListing() {
                   </div>
                 </div>
               </div>
-
               <div className="col-span-full">
                 <label
                   htmlFor="listingAddress"
@@ -235,7 +196,6 @@ export default function CreateListing() {
                   />
                 </div>
               </div>
-
               <div className="col-span-full">
                 <label
                   htmlFor="propertyType"
@@ -501,102 +461,6 @@ export default function CreateListing() {
     );
   }
 
-  // Fetch property listings on component mount
-  // useEffect(() => {
-  //   fetchPropertyListings();
-  // }, []);
-
-  // const propertyListingTable = () => {
-  //   return (
-  //     <div className="bg-white">
-  //       <div className="mx-auto max-w-7xl sm:px-2 lg:px-8">
-  //         <div className="mx-auto max-w-2xl px-4 lg:max-w-4xl lg:px-0">
-  //           <h2 className="text-3xl font-bold mt-4 text-gray-900 sm:text-3xl">
-  //             Create a Property Listing
-  //           </h2>
-  //           <br />
-  //           <h2 className="text-xl text-gray-700">
-  //             Tell us a little more about the property
-  //           </h2>
-
-  //           {/* Render property listings in a table */}
-  //           <h2 className="text-3xl font-bold mt-8 text-gray-900">
-  //             Your Property Listings
-  //           </h2>
-  //           <div className="mt-4">
-  //             <table className="min-w-full divide-y divide-gray-200">
-  //               <thead>
-  //                 <tr>
-  //                   <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-  //                     Title
-  //                   </th>
-  //                   <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-  //                     Type
-  //                   </th>
-  //                   <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-  //                     Configuration
-  //                   </th>
-  //                   <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-  //                     Floor Size
-  //                   </th>
-  //                   <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-  //                     Address
-  //                   </th>
-  //                   <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-  //                     Amenities
-  //                   </th>
-  //                   <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-  //                     Room Rate ¥
-  //                   </th>
-  //                   <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-  //                     Coordinates
-  //                   </th>
-  //                   <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-  //                     Description
-  //                   </th>
-  //                 </tr>
-  //               </thead>
-  //               <tbody className="bg-white divide-y divide-gray-200">
-  //                 {propertyListings.map((listing) => (
-  //                   <tr key={listing.id}>
-  //                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-  //                       {listing.title}
-  //                     </td>
-  //                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-  //                       {listing.propertytype}
-  //                     </td>
-  //                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-  //                       {listing.configuration}
-  //                     </td>
-  //                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-  //                       {listing.floorsize}
-  //                     </td>
-  //                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-  //                       {listing.address}
-  //                     </td>
-  //                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-  //                       {listing.amenities}
-  //                     </td>
-  //                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-  //                       {listing.roomrate}
-  //                     </td>
-  //                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-  //                       {listing.coordinates}
-  //                     </td>
-  //                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-  //                       {listing.description}
-  //                     </td>
-  //                   </tr>
-  //                 ))}
-  //               </tbody>
-  //             </table>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // };
-
   return (
     <>
       <header>
@@ -605,8 +469,9 @@ export default function CreateListing() {
         </div>
       </header>
       <main className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8 py-8">
-        {renderListingForm()}
+        {listingForm}
       </main>
+      {alert}
     </>
   );
 }

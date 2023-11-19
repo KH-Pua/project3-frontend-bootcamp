@@ -19,16 +19,11 @@ export default function BaseTemplate() {
 
   const navigation = [
     { name: "Listings", href: "/listingAll", current: true },
-    {
-      name: "Create Property Manager",
-      href: "/managerRegistration",
-      current: false,
-    },
+    { name: "My Dashboard", href: "/guestDashboard", current: false },
   ];
   const userNavigation = [
-    { name: 'Booking Dashboard', href: '/guestDashboard', onClick: null},
-    { name: 'Hosting Dashboard', href: '/managerDashboard', onClick: null},
-    // { name: 'Messenger', href: '/messenger', onClick: null },
+    { name: 'Guest Dashboard', href: '/guestDashboard', onClick: null},
+    { name: 'Manager Dashboard', href: '/managerDashboard', onClick: null},
     { name: 'Sign out', href: '', onClick: handleLogout},
   ]
 
@@ -169,8 +164,6 @@ export default function BaseTemplate() {
                     {navigation.map((item) => (
                       <Disclosure.Button
                         key={item.name}
-                        // as="a"
-                        // href={item.href}
                         className={classNames(
                           item.current
                             ? "border-indigo-500 bg-indigo-50 text-indigo-700"
@@ -228,21 +221,15 @@ export default function BaseTemplate() {
           </Disclosure>
           <div className="py-10">
             <Outlet />
-            {/* <header>
-              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">Dashboard</h1>
-              </div>
-            </header>
-            <main>
-              <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <Outlet />
-              </div>
-            </main> */}
           </div>
         </div>
       );
     }
   };
 
-  return <>{renderHeader()}</>;
+  return (
+    <>
+      {renderHeader()}
+    </>
+  )
 }

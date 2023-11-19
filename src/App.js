@@ -55,12 +55,7 @@ const App = () => {
             {/* Payment success or cancel */}
             <Route path="/success" element={<PaymentSuccess />} />
             <Route path="/cancel" element={<PaymentCancel />} />
-            {/* Manager Pages */}
-            <Route
-              path="managerRegistration"
-              element={<ManagerRegistration />}
-            />
-          
+
             {/* Messenger for both */}
             <Route path="messenger" element={<Messenger />} />
           </Route>
@@ -79,6 +74,7 @@ const App = () => {
             <Route path="createListing" element={<CreateListing />} />
             <Route path="listingDetails" element={<ListingDetails />} />
             <Route path="messenger" element={<Messenger />} />
+            <Route path="managerRegistration" element={<ManagerRegistration />} />
             <Route path="profile" element={<GuestDashboardProfile />} />
           </Route>
 

@@ -20,11 +20,9 @@ export default function BookingRequest() {
   const { post } = useApi();
 
   const [selectedListing, setSelectedListing] = useState("");
-  // "bookingStatus" and "paymentStatus" need to determine after integrating Stripe API
   const [bookingStatus, setBookingStatus] = useState("pending");
   const [paymentStatus, setPaymentStatus] = useState("unpaid");
 
-  // Get propertyId from route params
   const { propertyId } = useParams();
 
   const handleBooking = async (e) => {
@@ -163,7 +161,6 @@ export default function BookingRequest() {
       return (
         <div className="bg-white">
           <div>
-            {/* <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Booking Summary</h1> */}
             <form className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
               <section aria-labelledby="cart-heading" className="lg:col-span-7">
                 <h2 id="cart-heading" className="sr-only">
@@ -173,11 +170,6 @@ export default function BookingRequest() {
                 <ul className="divide-y divide-gray-200 border-b border-t border-gray-200">
                   <li key={selectedListing.id} className="flex py-6 sm:py-10">
                     <div className="flex-shrink-0">
-                      {/* <img
-                        src={product.imageSrc}
-                        alt={product.imageAlt}
-                        className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
-                      /> */}
                     </div>
 
                     <div className="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
@@ -192,10 +184,6 @@ export default function BookingRequest() {
                             </h3>
                           </div>
                           <div className="mt-1 flex text-sm">
-                            {/* <p className="text-gray-500">{product.color}</p> */}
-                            {/* {product.size ? (
-                              <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">{product.size}</p>
-                            ) : null} */}
                           </div>
                           <p className=" text-gray-500 sm:mt-2 sm:block text-xs">
                             <span className="font-bold text-gray-800">
@@ -280,10 +268,6 @@ export default function BookingRequest() {
                   <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                     <dt className="flex items-center text-sm text-gray-600">
                       <span>Booking Fee</span>
-                      {/* <a href="#" className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
-                      <span className="sr-only">Learn more about how shipping is calculated</span>
-                      <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
-                    </a> */}
                     </dt>
                     <dd className="text-sm font-medium text-gray-900">
                       ¥{" "}
@@ -293,10 +277,6 @@ export default function BookingRequest() {
                   <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                     <dt className="flex text-sm text-gray-600">
                       <span>VAT 10%</span>
-                      {/* <a href="#" className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
-                      <span className="sr-only">Learn more about how tax is calculated</span>
-                      <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
-                    </a> */}
                     </dt>
                     <dd className="text-sm font-medium text-gray-900">
                       ¥ {handlePrice({ outputType: "vat", selectedDate })}
