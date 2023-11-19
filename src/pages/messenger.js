@@ -11,16 +11,12 @@ export default function Messenger() {
   const navigate = useNavigate();
   const { isAuthenticated, isLoading } = useAuthGate();
 
-  // Declare state here.
-
-  // Your code here.
-
   if (isLoading) {
-    return <div>Loading...</div>; // Or some loading spinner
+    return <div>Loading...</div>; 
   }
 
   if (!isAuthenticated) {
-    return null; // Render nothing or a message prompting the user to wait while being redirected
+    return null; 
   }
 
   return (

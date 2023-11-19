@@ -97,7 +97,7 @@ export default function ListingAll() {
                         listing.property_assets &&
                         listing.property_assets.length > 0
                           ? listing.property_assets[0].file_link
-                          : "default_image_url_here" // Replace with your default image URL
+                          : "default_image_url_here"
                       }
                       alt="Property"
                       className="h-full w-full object-cover object-center lg:h-full lg:w-full"
@@ -388,15 +388,20 @@ export default function ListingAll() {
     <>
       <header>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">Property Listing</h1>
+          <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
+            Property Listing
+          </h1>
         </div>
       </header>
       <main className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8 py-8">
         <div>
           <div className="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-3">
             <div>
-              <label htmlFor="datePicker" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-              Travel Date
+              <label
+                htmlFor="datePicker"
+                className="block text-sm font-medium leading-6 text-gray-900 mb-2"
+              >
+                Travel Date
               </label>
               <Datepicker
                 id="datePicker"
