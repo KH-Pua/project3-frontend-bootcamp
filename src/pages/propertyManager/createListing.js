@@ -31,6 +31,11 @@ export default function CreateListing() {
   const [description, setDescription] = useState("");
   const [bedNumber, setBedNumber] = useState(1);
   const [bathNumber, setBathNumber] = useState(1);
+
+  //State for forms
+  const [alert, setAlert] = useState("");
+  const [listingForm, setListingForm] = useState("");
+
   //const [propertyListings, setPropertyListings] = useState([]);
 
   //State for image upload
@@ -62,76 +67,84 @@ export default function CreateListing() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      // Get Auth0 access token
-      const token = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: "https://api.powderful.xyz",
-          scope: "read:current_user",
-        },
-      });
-
-      // Call the backend API to create the property listing
-      const response = await axios.post(
-        `${BACKEND_URL}/properties`,
-        {
-          title,
-          propertytype,
-          configuration,
-          floorsize,
-          address,
-          amenities,
-          roomrate,
-          coordinates,
-          description,
-          user_sub: user.sub,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      // Verified the id of the created listing, then upload photo to Firebase
+    console.log("Outside")
+    if (title && propertytype && configuration && floorsize && address && amenities && roomrate && description) {
+      console.log("Enter")
       try {
-        if (response.data.id) {
-
-          const fileRef = sRef(
-            storage,
-            `${STORAGE_KEY}/${response.data.id}/${file.name}`
-          );
-
-          await uploadBytes(fileRef, file);
-          const imageURL = await getDownloadURL(fileRef);
-
-          // Call the backend API to store the image URL
-          const imgUploadResponse = await axios.post(
-            `${BACKEND_URL}/propertyassets`,
-            {
-              property_id: response.data.id,
-              file_link: imageURL,
+        // Get Auth0 access token
+        const token = await getAccessTokenSilently({
+          authorizationParams: {
+            audience: "https://api.powderful.xyz",
+            scope: "read:current_user",
+          },
+        });
+  
+        // Call the backend API to create the property listing
+        const response = await axios.post(
+          `${BACKEND_URL}/properties`,
+          {
+            title,
+            propertytype,
+            configuration,
+            floorsize,
+            address,
+            amenities,
+            roomrate,
+            coordinates,
+            description,
+            user_sub: user.sub,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
             },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          if (imgUploadResponse.status === 201) {
-            navigate("/propertylisting");
           }
+        );
+  
+        // Verified the id of the created listing, then upload photo to Firebase
+        try {
+          if (response.data.id) {
+  
+            const fileRef = sRef(
+              storage,
+              `${STORAGE_KEY}/${response.data.id}/${file.name}`
+            );
+  
+            await uploadBytes(fileRef, file);
+            const imageURL = await getDownloadURL(fileRef);
+  
+            // Call the backend API to store the image URL
+            const imgUploadResponse = await axios.post(
+              `${BACKEND_URL}/propertyassets`,
+              {
+                property_id: response.data.id,
+                file_link: imageURL,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+  
+            if (imgUploadResponse.status === 201) {
+              navigate("/managerDashboard/");
+            }
+          }
+        } catch (error) {
+          console.error("Error handling photo upload:", error);
         }
+  
+        //fetchPropertyListings(); // Refresh the list of property listings
       } catch (error) {
-        console.error("Error handling photo upload:", error);
+        console.error("Error creating property listings:", error);
+        // Handle errors (e.g., show an error message)
       }
-
-      //fetchPropertyListings(); // Refresh the list of property listings
-    } catch (error) {
-      console.error("Error creating property listings:", error);
-      // Handle errors (e.g., show an error message)
-    }
+    } else {
+      setAlert(
+        <p className="text-base font-bold text-gray-800 text-center">Please input all the fields before proceed.</p>
+      )
+    };
   };
 
   const handleFileChange = (e) => {
@@ -167,8 +180,8 @@ export default function CreateListing() {
   },[bedNumber, bathNumber])
 
   useEffect(() => {
-    console.log(propertytype);
-  },[propertytype])
+    renderListingForm();
+  },[title, propertytype, configuration, floorsize, address, amenities, roomrate, coordinates, description, imagePreviewURL, file])
   
   const handleSelectPropertyType = (e) => {
     e.preventDefault();
@@ -181,7 +194,7 @@ export default function CreateListing() {
       count.push(i);
     };
 
-    return (
+    setListingForm (
       <form onSubmit={handleSubmit}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
@@ -605,8 +618,9 @@ export default function CreateListing() {
         </div>
       </header>
       <main className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8 py-8">
-        {renderListingForm()}
+        {listingForm}
       </main>
+      {alert}
     </>
   );
 }

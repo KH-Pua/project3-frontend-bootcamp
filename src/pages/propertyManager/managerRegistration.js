@@ -52,7 +52,6 @@ export default function ManagerRegistration() {
 
   useEffect(() => {
     // fetchPropertyManagers();
-
   }, []);
 
   const handleSubmit = async (e) => {
@@ -216,7 +215,6 @@ export default function ManagerRegistration() {
             </button>
           </div>
         </form>
-        {alert ? alert : ""}
       </>
     );
   }
@@ -328,8 +326,7 @@ export default function ManagerRegistration() {
       <main className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8 py-8">
         {registrationForm}
       </main>
+      {alert}
     </>
   );
-
-
 }

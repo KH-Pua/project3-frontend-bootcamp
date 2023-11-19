@@ -21,7 +21,7 @@ export default function ListingAll() {
 
   const {selectedDate, setSelectedDate, adultNumber, setAdultNumber, childrenNumber, setChildrenNumber} = useContext(GlobalContext);
   const navigate = useNavigate();
-  // Declare state here.
+
   const [listingAll, setListingAll] = useState("");
   const [listingId, setListingId] = useState(0);
   const [alert, setAlert] = useState("");
@@ -65,7 +65,6 @@ export default function ListingAll() {
     }
   };
 
-  // Function to handle booking button click
   const handleBookingClick = (propertyId) => {
     if (selectedDate) {
       navigate(`/bookingRequest/${propertyId}`);
@@ -76,7 +75,6 @@ export default function ListingAll() {
     };
   };
 
-  //Do modals for each listing, and pass filteredStartDate, filteredEndDate, adultsNo, childrenNo to bookingRequest.js
   const renderThumbnails = () => {
     if (listingAll) {
       return (
@@ -108,12 +106,9 @@ export default function ListingAll() {
                   <div className="mt-4">
                     <div className="flex justify-between">
                       <h3 className="text-sm text-gray-700 font-bold">
-                        {/* <a href="/bookingRequest"> */}
                         <span aria-hidden="true" className="absolute inset-0" />
                         {listing.title}
-                        {/* </a> */}
                       </h3>
-                      {/* <p className="mt-1 text-sm text-gray-500">{listing.description}</p> */}
                       <p className="text-sm font-medium text-gray-900">
                         ¥{listing.roomrate}/night
                       </p>
@@ -268,37 +263,6 @@ export default function ListingAll() {
                             <span className="font-bold">Amenities:</span>{" "}
                             {listingAll[arrayIndex].amenities}
                           </p>
-
-                          {/* Reviews */}
-                          {/* <div className="mt-4">
-                          <h4 className="sr-only">Reviews</h4>
-                          <div className="flex items-center">
-                            <p className="text-sm text-gray-700">
-                              {product.rating}
-                              <span className="sr-only"> out of 5 stars</span>
-                            </p>
-                            <div className="ml-1 flex items-center">
-                              {[0, 1, 2, 3, 4].map((rating) => (
-                                <StarIcon
-                                  key={rating}
-                                  className={classNames(
-                                    product.rating > rating ? 'text-yellow-400' : 'text-gray-200',
-                                    'h-5 w-5 flex-shrink-0'
-                                  )}
-                                  aria-hidden="true"
-                                />
-                              ))}
-                            </div>
-                            <div className="ml-4 hidden lg:flex lg:items-center">
-                              <span className="text-gray-300" aria-hidden="true">
-                                &middot;
-                              </span>
-                              <a href="#" className="ml-4 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                                See all {product.reviewCount} reviews
-                              </a>
-                            </div>
-                          </div>
-                        </div> */}
                         </section>
 
                         <section
@@ -309,80 +273,6 @@ export default function ListingAll() {
                             Product options
                           </h3>
 
-                          {/* <form>
-                           Color picker
-                          <div>
-                            <h4 className="text-sm font-medium text-gray-900">Color</h4>
-
-                            <RadioGroup value={selectedColor} onChange={setSelectedColor} className="mt-2">
-                              <RadioGroup.Label className="sr-only">Choose a color</RadioGroup.Label>
-                              <div className="flex items-center space-x-3">
-                                {product.colors.map((color) => (
-                                  <RadioGroup.Option
-                                    key={color.name}
-                                    value={color}
-                                    className={({ active, checked }) =>
-                                      classNames(
-                                        color.selectedColor,
-                                        active && checked ? 'ring ring-offset-1' : '',
-                                        !active && checked ? 'ring-2' : '',
-                                        'relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none'
-                                      )
-                                    }
-                                  >
-                                    <RadioGroup.Label as="span" className="sr-only">
-                                      {color.name}
-                                    </RadioGroup.Label>
-                                    <span
-                                      aria-hidden="true"
-                                      className={classNames(
-                                        color.bgColor,
-                                        'h-8 w-8 rounded-full border border-black border-opacity-10'
-                                      )}
-                                    />
-                                  </RadioGroup.Option>
-                                ))}
-                              </div>
-                            </RadioGroup>
-                          </div>
-
-                           Size picker 
-                          <div className="mt-8">
-                            <div className="flex items-center justify-between">
-                              <h4 className="text-sm font-medium text-gray-900">Size</h4>
-                              <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                                Size guide
-                              </a>
-                            </div>
-
-                            <RadioGroup value={selectedSize} onChange={setSelectedSize} className="mt-2">
-                              <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
-                              <div className="grid grid-cols-7 gap-2">
-                                {product.sizes.map((size) => (
-                                  <RadioGroup.Option
-                                    key={size.name}
-                                    value={size}
-                                    className={({ active, checked }) =>
-                                      classNames(
-                                        size.inStock
-                                          ? 'cursor-pointer focus:outline-none'
-                                          : 'cursor-not-allowed opacity-25',
-                                        active ? 'ring-2 ring-indigo-500 ring-offset-2' : '',
-                                        checked
-                                          ? 'border-transparent bg-indigo-600 text-white hover:bg-indigo-700'
-                                          : 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50',
-                                        'flex items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase sm:flex-1'
-                                      )
-                                    }
-                                    disabled={!size.inStock}
-                                  >
-                                    <RadioGroup.Label as="span">{size.name}</RadioGroup.Label>
-                                  </RadioGroup.Option>
-                                ))}
-                              </div>
-                            </RadioGroup>
-                          </div> */}
-
                           <button
                             type="submit"
                             className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -392,12 +282,6 @@ export default function ListingAll() {
                           </button>
                           <br />
                           {alert}
-                          {/* <p className="absolute left-4 top-4 text-center sm:static sm:mt-8">
-                            <a href={product.href} className="font-medium text-indigo-600 hover:text-indigo-500">
-                              View full details
-                            </a>
-                          </p>
-                        </form> */}
                         </section>
                       </div>
                     </div>
@@ -459,8 +343,6 @@ export default function ListingAll() {
   }
 
   const handleNumberChange = (e) => {
-    console.log(e.target.id);
-    console.log(e.target.value);
     if (setAdultNumber && setChildrenNumber) {
       if (e.target.id === "adultNumber") {
         setAdultNumber(e.target.value);
@@ -487,16 +369,6 @@ export default function ListingAll() {
         console.log(err);
       }
     }
-    //GET REVIEWS
-    // async function getReviews() {
-    //   try {
-    //       //Need to get all review on all bookings with same property_id
-    //       let listingReview = await axios.get(`${BACKEND_URL}/bookings/`)
-    //   } catch (err) {
-    //       console.log(err);
-    //   }
-    // };
-
     if (isAuthenticated && getAccessTokenSilently && user) {
       fetchListingAll();
     };
@@ -508,20 +380,9 @@ export default function ListingAll() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      console.log("Authenticated");
       handleUserData();
     }
   }, [isAuthenticated, getAccessTokenSilently, user]);
-
-  useEffect(() => {
-    if (selectedDate){
-      console.log(selectedDate);
-    }
-  },[selectedDate])
-
-  useEffect(() => {
-    console.log(listingAll);
-  },[listingAll])
 
   return (
     <>

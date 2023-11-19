@@ -12,7 +12,8 @@ import {
     UsersIcon,
     XMarkIcon,
     PlusCircleIcon,
-    ChatBubbleLeftEllipsisIcon
+    ChatBubbleLeftEllipsisIcon,
+    UserPlusIcon,
   } from '@heroicons/react/24/outline'
   import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 
@@ -37,6 +38,7 @@ export default function ManagerDashboardTemplate() {
         { name: "Manager Dashboard", href: "/managerDashboard", icon: HomeIcon, current: false },
         { name: "Create Listing", href: "/managerDashboard/createListing", icon: PlusCircleIcon, current: false },
         { name: "Messenger", href: "/managerDashboard/messenger", icon: ChatBubbleLeftEllipsisIcon, current: false },
+        { name: "Create Manager", href: "/managerDashboard/managerRegistration", icon: UserPlusIcon, current: false },
         { name: "Profile", href: "/managerDashboard/profile", icon: UsersIcon, current: false },
     ];
 
