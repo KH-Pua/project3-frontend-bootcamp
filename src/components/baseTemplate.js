@@ -14,7 +14,7 @@ export default function BaseTemplate() {
 
   const handleLogout = () => {
     // change to https://powderful.netlify.app/ when doing frontend deployment to Netlify
-    logout({ returnTo: window.location.origin });
+    logout({ returnTo: process.env.REACT_APP_LOGOUT_URL });
   };
 
   const navigation = [
