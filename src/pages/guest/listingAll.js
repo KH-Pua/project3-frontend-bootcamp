@@ -105,8 +105,8 @@ export default function ListingAll() {
                   </div>
                   <div className="mt-4">
                     <div className="flex justify-between">
-                      <h3 className="text-sm text-gray-700 font-bold">
-                        <span aria-hidden="true" className="absolute inset-0" />
+                      <h3 className="text-sm text-gray-700 font-bold text-left line-clamp-1">
+                        <span aria-hidden="true" className="absolute inset-0 " />
                         {listing.title}
                       </h3>
                       <p className="text-sm font-medium text-gray-900">
