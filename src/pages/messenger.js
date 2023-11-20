@@ -11,16 +11,12 @@ export default function Messenger() {
   const navigate = useNavigate();
   const { isAuthenticated, isLoading } = useAuthGate();
 
-  // Declare state here.
-
-  // Your code here.
-
   if (isLoading) {
-    return <div>Loading...</div>; // Or some loading spinner
+    return <div>Loading...</div>; 
   }
 
   if (!isAuthenticated) {
-    return null; // Render nothing or a message prompting the user to wait while being redirected
+    return null; 
   }
 
   return (
@@ -30,10 +26,8 @@ export default function Messenger() {
           <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">Messenger</h1>
         </div>
       </header>
-      <main className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
-        <div>
-        {/* Messenger Body Here */}
-        </div>
+      <main className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8 py-8">
+        <p>Messenger feature coming soon! Feel free to reach out directly via email / message to the host / property manager</p>
       </main>
     </>
   );

@@ -12,7 +12,7 @@ export default function GlobalProvider({ children }) {
 
   const infoToPass = {
     // Add other state or functions that you need to pass here
-    selectedDate, setSelectedDate, adultNumber, setAdultNumber, childrenNumber, setChildrenNumber
+    selectedDate, setSelectedDate, adultNumber, setAdultNumber, childrenNumber, setChildrenNumber,
   };
 
   return (
