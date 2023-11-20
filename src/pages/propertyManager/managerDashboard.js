@@ -71,12 +71,12 @@ export default function ManagerDashboard() {
           scope: "read:current_user",
         },
       });
-      const response = await axios.get(`${BACKEND_URL}/bookings/mine`, {
-        params: { user_sub: user.sub },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+        const response = await axios.get(`${BACKEND_URL}/bookings/mine`, {
+          params: { user_sub: user.sub },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       setPropertyBookings(response.data);
     } catch (error) {
       console.error("Error fetching property bookings:", error);
