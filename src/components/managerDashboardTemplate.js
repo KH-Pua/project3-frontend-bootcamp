@@ -45,7 +45,7 @@ export default function ManagerDashboardTemplate() {
     const userNavigation = [
         { name: "Home", href: "/listingAll" },
         { name: "Guest Dashboard", href: "/guestDashboard" },
-        { name: "Sign out", href: "/" },
+        { name: "Sign out", href: process.env.REACT_APP_LOGOUT_URL },
     ];
 
     const selectedPageButtonHandler = (array, route) => {
